@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "poppins";
+  src: url("./assets/Fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "poppinsBold";
+  src: url("./assets/Fonts/Poppins/Poppins-ExtraBold.ttf") format("truetype");
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: poppins;
+}
+.noScroll_Line {
+  overflow: scroll; /* or auto if you prefer */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.noScroll_Line::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

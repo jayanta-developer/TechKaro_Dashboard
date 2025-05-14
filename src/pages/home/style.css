@@ -1,0 +1,290 @@
+.dashboardMainSection {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  background: #ffffff;
+}
+.mainSection {
+  width: 100%;
+}
+.mainNavBar {
+  width: 100%;
+  height: 40px;
+  background: #5ab15b5e;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+.menuIcon {
+  width: 40px;
+}
+.mainBox {
+  width: 100%;
+  height: 100%;
+  display: none;
+  padding: 20px;
+  background: #fcebef;
+}
+.mainBoxActive {
+  display: block;
+  overflow-y: scroll;
+  position: relative;
+}
+.sectionHeader {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+.inputBox {
+  width: 50%;
+  min-width: 300px;
+  margin-bottom: 20px;
+}
+.inputField {
+  width: 100%;
+  height: 45px;
+  border: 1px solid rgba(128, 128, 128, 0.301);
+  border-radius: 5px;
+  overflow: hidden;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+textarea {
+  width: 100%;
+  height: 60px !important;
+  border: 1px solid rgba(128, 128, 128, 0.301);
+  border-radius: 5px;
+  overflow: hidden;
+  padding-left: 10px;
+}
+.textareaBox {
+  height: 100px;
+}
+.inputField input,
+.inputField textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding-left: 20px;
+  font-size: 18px;
+}
+.inputField input,
+.inputField textarea :focus {
+  outline: none;
+}
+.inputBox p {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+input,
+textarea {
+  border: none;
+}
+input:focus,
+textarea:focus {
+  outline: none;
+}
+.dumText {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.imageUploadBox {
+  width: 50%;
+  margin-top: 20px;
+}
+.imageUploadBox p {
+  font-size: 20px;
+}
+
+.btnBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  gap: 30px;
+  align-items: center;
+}
+
+.loaderBox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.servImgUpdateBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+/* delete pop */
+.grayBox {
+  position: absolute;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  background: #00000041;
+  z-index: 9;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+.ActiveGrayBox {
+  display: flex;
+}
+.popBox {
+  position: absolute;
+  width: 300px;
+  background: #fff;
+  border-radius: 15px;
+  display: flex;
+  padding: 20px;
+  top: 30%;
+  left: 38%;
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.popBox h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.popBtnBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+.sectionListBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.section {
+  width: 100%;
+  padding: 5px 0;
+  position: relative;
+  background: #5ab15b5e;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  /* padding-right: 95px; */
+}
+.sectionOutBox {
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+  background: #fff;
+}
+.inSerErr {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+.inSerErr img {
+  width: 80% !important;
+  height: 80%;
+  border-radius: 20px;
+}
+.cardTopBtnBox {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.cardTopBtnBoxColaps {
+  top: 23px;
+}
+.cardTopBtnBox img {
+  cursor: pointer;
+}
+.editIcon,
+.deleteIcon {
+  width: 20px;
+}
+
+.minassIcom {
+  width: 48px;
+  position: relative;
+  top: 0px;
+}
+.categoryNormalView {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.categoryImgBox {
+  min-width: 129px;
+  width: 129px;
+  height: 85px;
+}
+.categoryNImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.ctgTextBox {
+  width: 100%;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.categoryEditView {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+}
+
+.cciBox .preview-item .delete-btn {
+  right: 0px;
+}
+.inputTwoBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+.inToIn {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+.inToIn input {
+  margin-bottom: 0;
+}
+.addSection {
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.addSection .sectionHeader {
+  margin: 0;
+}
+.createBox {
+  background: #5ab15b1a;
+  border: 1px solid green;
+}
+.sectionOutBox {
+  width: 100%;
+  padding: 20px;
+  border-radius: 20px;
+  background: #fff;
+}

@@ -1,0 +1,49 @@
+.appBtn {
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.5s;
+  padding: 0 20px;
+  gap: 8px;
+}
+.appBtn p {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
+.appBtn:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.appholorBtn {
+  border: 2px solid #fa8a05;
+  background: #fff;
+  transition: all 0.6s;
+}
+.appholorBtn p {
+  color: #000 !important;
+}
+.orangeBtn {
+  background: #ff9361 !important;
+}
+.orangeBtn:hover {
+  background: #ff9361 !important;
+}
+.appBtn img {
+  width: 25px;
+}
+.addMoreBtn {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+}
+.addMoreBtn p {
+  color: #ff9361;
+}
+.removeBtn p{
+  color: #FA5252;
+}

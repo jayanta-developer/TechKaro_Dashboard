@@ -1,0 +1,126 @@
+.sideMenu {
+  min-width: 70px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background: rgb(255, 255, 255);
+  transition: all 0.7s cubic-bezier(0.13, 1.01, 0.97, 0.79);
+  padding-top: 20px;
+  position: relative;
+}
+.sideMenuActive {
+  min-width: 300px;
+}
+.clogBox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.sideMenuItem_Box {
+  width: 100%;
+  /* height: -webkit-fill-available; */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 20px;
+  margin-top: 40px;
+  position: relative;
+  /* overflow-y: scroll; */
+}
+.sideMenuItem_Box_C {
+  padding: 0 4px;
+}
+.sideMenuItem {
+  width: 100%;
+  min-height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.sideMenuActive .sideMenuItem {
+  padding-left: 20px;
+  justify-content: start;
+}
+.sideMenuItem:hover {
+  background: #f83659;
+}
+.ActiveSideMenuItem {
+  background: #e82b4d;
+  box-shadow: 0px 10px 30px 0px #b8213d60;
+}
+.sideMenuItem img {
+  width: 35px;
+  transition: all 0.3s;
+}
+.sideMenuActive .sideMenuItem img {
+  margin-right: 16px;
+}
+.sideMenuItem p {
+  font-size: 18px;
+  color: #44465a;
+  font-weight: 600;
+  transition: all 0.6s;
+}
+.ActiveSideMenuItem p {
+  color: #ffffff;
+}
+.Clog_Box {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Clog_Box p {
+  color: #ffd700;
+  font-size: 25px;
+  font-weight: 600;
+}
+.Clog_Box samp {
+  color: #daa520;
+}
+.menuActionBtn {
+  width: 87%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 20px;
+  cursor: pointer;
+  z-index: 1;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 20px;
+  left: 4px;
+  background: #fff;
+}
+.menuActionBtnActive {
+  left: 20px;
+}
+.menuActionBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* Covers the entire div */
+  border-radius: 12px; /* Same as parent */
+  padding: 2px; /* Border thickness */
+  background: linear-gradient(94.67deg, #5ab15b 0%, #fe8903 100%);
+  -webkit-mask: linear-gradient(white 0 0) content-box,
+    linear-gradient(white 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+}
+.menuActionBtn p {
+  font-weight: 600;
+  color: #44465a;
+  margin-left: 16px;
+  white-space: nowrap;
+}
+.menuActionBtn img {
+  width: 20px;
+}
+.sideMenuItem_Box_C .menuActionBtn {
+  width: 80%;
+  left: 6px;
+}

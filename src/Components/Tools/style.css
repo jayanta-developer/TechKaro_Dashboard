@@ -1,0 +1,77 @@
+.loaderBox {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(128, 128, 128, 0.322);
+  z-index: 999;
+}
+.ActiveloaderBox {
+  display: flex;
+}
+.loaderBox img {
+  width: 100px;
+}
+.productDataMainBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.DropBox {  
+  height: 44px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 40px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  position: relative;
+  cursor: pointer;
+  background: #ffffffe7;
+}
+.DropBox .downArrow {
+  position: absolute;
+  right: 8px;
+  width: 23px;
+  transition: all 0.5s;
+}
+.DropBox samp {
+  font-size: 18px;
+  color: black;
+}
+.dropListBox {
+  position: absolute;
+  top: 42px;
+  left: 0px;
+  width: 100%;
+  height: 0px;
+  overflow: hidden;
+  z-index: 99;
+}
+.ActivedropListBox {
+  height: 140px;
+  overflow-y: scroll;
+  border: 1px solid rgb(78, 78, 78);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.dropItem {
+  width: 100%;
+  height: 40px;
+  border: 1px solid rgba(128, 128, 128, 0.233);
+  display: flex;
+  align-items: center;
+  padding-left: 7px;
+  cursor: pointer;
+  background: whitesmoke;
+}
+.dropItem p {
+  margin: 0;
+  line-height: 19px;
+}
