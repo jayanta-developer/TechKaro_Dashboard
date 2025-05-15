@@ -22,7 +22,9 @@ export const Image = {
   addIcon,
   minusIcon,
   blogIcon,
-  blogActiveIcon
+  blogActiveIcon,
+  saveIcon,
+  ImageUploadIcon
 };
 
 import AddIcon from "./addIcon.png";
@@ -43,7 +45,9 @@ import downArrow from "./DownArrow.png";
 import NODataImg from "../../assets/Images/NOData.jpg";
 import InternalServerErrImg from "../../assets/Images/intenalServerErr.jpg";
 import editIcon from "../../assets/Images/editIcon.svg";
-import deleteIcon from "../../assets/Images/BinIcon.svg";
+import deleteIcon from "../../assets/Images/DeleteIcon.svg";
+import saveIcon from "../Images/saveIcon.png"
+import ImageUploadIcon from "../Images/ImageUploadIcon.png"
 import crossIconV2 from "../../assets/Images/crossIconV2.svg";
 import addIcon from "../Images/add_Icon.png";
 import minusIcon from "../Images/minus-icon.png";

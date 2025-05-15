@@ -16,7 +16,7 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .appholorBtn {
-  border: 2px solid #fa8a05;
+  border: 2px solid#ad1f39;
   background: #fff;
   transition: all 0.6s;
 }
@@ -24,10 +24,10 @@
   color: #000 !important;
 }
 .orangeBtn {
-  background: #ff9361 !important;
+  background: #e82b4d !important;
 }
 .orangeBtn:hover {
-  background: #ff9361 !important;
+  background: #e82b4d !important;
 }
 .appBtn img {
   width: 25px;
@@ -42,8 +42,8 @@
   cursor: pointer;
 }
 .addMoreBtn p {
-  color: #ff9361;
+  color: #e82b4d;
 }
-.removeBtn p{
-  color: #FA5252;
+.removeBtn p {
+  color: #e82b4d;
 }

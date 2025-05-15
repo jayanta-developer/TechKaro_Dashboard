@@ -10,12 +10,12 @@ export const uploadImage = async (file: string[]) => {
 
       const formData = new FormData();
       formData.append("file", blob);
-      formData.append("upload_preset", "nbsProperty");
-      formData.append("folder", "NBS");
+      formData.append("upload_preset", "TechKaro");
+      formData.append("folder", "CategoryIcon");
 
       imageUploads.push(
         axios.post(
-          "https://api.cloudinary.com/v1_1/djahpqmc3/image/upload",
+          "https://api.cloudinary.com/v1_1/det2eolem/image/upload",
           formData
         )
       );

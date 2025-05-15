@@ -279,8 +279,8 @@ textarea:focus {
   margin: 0;
 }
 .createBox {
-  background: #5ab15b1a;
-  border: 1px solid green;
+  background: #fff1f3;
+  border: 1px solid #c02340;
 }
 .sectionOutBox {
   width: 100%;
