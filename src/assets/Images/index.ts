@@ -24,7 +24,7 @@ export const Image = {
   blogIcon,
   blogActiveIcon,
   saveIcon,
-  ImageUploadIcon
+  ImageUploadIcon, categroyIcon, categroy_AIcon,productIcon,product_AIcon
 };
 
 import AddIcon from "./addIcon.png";
@@ -51,7 +51,11 @@ import ImageUploadIcon from "../Images/ImageUploadIcon.png"
 import crossIconV2 from "../../assets/Images/crossIconV2.svg";
 import addIcon from "../Images/add_Icon.png";
 import minusIcon from "../Images/minus-icon.png";
-import blogIcon from "../../assets/Images/blogIcon.svg";
-import blogActiveIcon from "../../assets/Images/blogIcon_A.svg";
+import blogIcon from "../../assets/Images/blogIcon.png";
+import blogActiveIcon from "../../assets/Images/blogIcon_A.png";
+import categroyIcon from "../Images/categoryIcon.png"
+import categroy_AIcon from "../Images/category_AIcon.png"
+import productIcon from "../Images/productIcon.png"
+import product_AIcon from "../Images/product_AIcon.png"
 
 

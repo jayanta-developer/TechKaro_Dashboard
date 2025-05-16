@@ -6,6 +6,7 @@ import SideMenu from "../../Components/SideMenu";
 
 //section
 import CategorySection from "../../Components/CategorySection";
+import ProductSection from "../../Components/ProductSection";
 
 import { ToastContainer } from "react-toastify";
 
@@ -23,8 +24,8 @@ export default function Home() {
         <ToastContainer />
         <SideMenu setActivePage={setActivePage} />
         <div className="mainSection">
-          {/* Blog */}
           <CategorySection />
+          <ProductSection />
         </div>
       </div>
     </>

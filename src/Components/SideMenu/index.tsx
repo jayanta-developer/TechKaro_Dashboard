@@ -25,13 +25,13 @@ export default function SideMenu({ setActivePage }: SidebarProps) {
   const sideMenuList = [
     {
       title: "Category",
-      icon: Image.propertyIcon,
-      ActiveIcon: Image.property_AIcon,
+      icon: Image.categroyIcon,
+      ActiveIcon: Image.categroy_AIcon,
     },
     {
       title: "Product",
-      icon: Image.officeIcon,
-      ActiveIcon: Image.office_AIcon,
+      icon: Image.productIcon,
+      ActiveIcon: Image.product_AIcon,
     },
     {
       title: "Blogs",

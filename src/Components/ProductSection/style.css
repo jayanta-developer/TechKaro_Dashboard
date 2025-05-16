@@ -1,0 +1,40 @@
+.overviewInputBox {
+  border: 1px solid rgb(255, 209, 209);
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 20px;
+  background: #ffffff78;
+}
+.featureBtnBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.threeInBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 19px;
+  margin-bottom: 10px;
+}
+.thrInputBox {
+  width: 49%;
+}
+.featuresBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.featureInputCard {
+  width: 20%;
+  border: 1px solid rgb(255, 209, 209);
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 20px;
+  background: #ffffff78;
+}
