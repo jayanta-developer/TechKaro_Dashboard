@@ -208,7 +208,7 @@ export default function CategorySection() {
               onClick={() => setCreateCategoryPop(false)}
             />
           </div>
-          <div className="categoryEditView">
+          <div className="categoryEditView imgPreviewBoxTop">
             <div className="categoryImgBox cciBox">
               <MultipleImageUpload
                 images={images}

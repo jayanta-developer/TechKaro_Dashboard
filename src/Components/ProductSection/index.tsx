@@ -18,14 +18,21 @@ import { uploadImage } from "../../Util/ImageUploader";
 import { GoTop, Loader } from "../Tools";
 
 import type { productDataType } from "../../Store/ProductSlice";
+import { FetchProduct, CreateProduct } from "../../Store/ProductSlice";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState, AppDispatch } from "../../Store/store";
 
 export default function ProductSection() {
   const ActivePage = localStorage.getItem("ActivePage");
-
+  const dispatch = useDispatch<AppDispatch>();
+  const { data, status } = useSelector((state: RootState) => state.product);
+  console.log(data, status);
   const [loding, setLoading] = useState(false);
   const [createProductPop, setCreateProductPop] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [previewURLs, setPreviewURLs] = useState<string[]>([]);
+  const [bannerImages, setBannerImages] = useState<File[]>([]);
+  const [bannerPreviewURLs, setBannerPreviewURLs] = useState<string[]>([]);
   const [imgAltText, setImgAltText] = useState<Record<string, string>>({});
   const [productLocVal, setProductLocVal] = useState<productDataType>({
     title: "",
@@ -181,9 +188,125 @@ export default function ProductSection() {
       }));
     }
   };
-  // create Product
-  const postProduct = () => {};
 
+  //handel banner icon upload
+  const handleBannerFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files ? Array.from(e.target.files) : [];
+    const fileArray = files.map((file) => URL.createObjectURL(file));
+    setBannerImages((prev) => [...prev, ...files]);
+    setBannerPreviewURLs((prev) => [...prev, ...fileArray]);
+  };
+  // create Product
+  const postProduct = async () => {
+    setLoading(true);
+
+    const imageUrls = await uploadImage(previewURLs);
+    if (!imageUrls?.length) {
+      setLoading(false);
+      toast.warn("Please select a image for Product");
+      return;
+    }
+    const BannderimageUrls = await uploadImage(bannerPreviewURLs);
+    if (!imageUrls?.length) {
+      setLoading(false);
+      toast.warn("Please select a image for Banner");
+      return;
+    }
+
+    console.log(imageUrls);
+    console.log(BannderimageUrls);
+    console.log({
+      title: productLocVal?.title,
+      image: imageUrls[0],
+      About: {
+        title: productLocVal?.aboutTitle,
+        summary: productLocVal?.aboutSummary,
+      },
+      userCount: {
+        title: productLocVal.userCoutnTitle,
+        count: productLocVal.userCountValue,
+      },
+      infoCount: {
+        title: productLocVal?.infoCountTitle,
+        count: productLocVal?.infoCountValue,
+      },
+      KeyInsights: keyInsightsData,
+      AdvertisingCost: AdvertisingCostData,
+
+      summary: summaryParagraph,
+      bannerData: {
+        title: productLocVal?.bannerTitle,
+        summary: productLocVal?.bannerSummary,
+        img: {},
+      },
+    });
+
+    if (
+      !productLocVal.title ||
+      !productLocVal.aboutTitle ||
+      !productLocVal.aboutSummary ||
+    ) {
+      console.log("all value is not there");
+    } else {
+      console.log("all value is there");
+    }
+
+    if (
+      !productLocVal.title ||
+      !productLocVal.aboutTitle ||
+      !productLocVal.aboutSummary ||
+      !productLocVal.userCoutnTitle ||
+      !productLocVal.userCountValue ||
+      !keyInsightsData[0].title.length ||
+      !AdvertisingCostData[0].title.length ||
+      !productLocVal.bannerSummary ||
+      !productLocVal.bannerTitle ||
+      !productLocVal.infoCountTitle ||
+      !productLocVal.infoCountValue ||
+      !summaryParagraph[0]?.title.length ||
+      !productLocVal.bannerImg
+    ) {
+      setLoading(false);
+      console.log("all value is not there");
+
+      toast.warn("Please fill all the values!");
+      return;
+    }
+
+    // dispatch(
+    //   CreateProduct({
+    //     title: productLocVal?.title,
+    //     image: imageUrls[0],
+    //     About: {
+    //       title: productLocVal?.aboutTitle,
+    //       summary: productLocVal?.aboutSummary,
+    //     },
+    //     KeyInsights: keyInsightsData,
+    //     AdvertisingCost: AdvertisingCostData,
+    //     userCount: {
+    //       title: productLocVal.userCoutnTitle,
+    //       count: productLocVal.userCountValue,
+    //     },
+    //     infoCount: {
+    //       title: productLocVal?.infoCountTitle,
+    //       count: productLocVal?.infoCountValue,
+    //     },
+    //     summary: summaryParagraph,
+    //     bannerData: {
+    //       title: productLocVal?.bannerTitle,
+    //       summary: productLocVal?.bannerSummary,
+    //       img: {},
+    //     },
+    //   })
+    // );
+  };
+
+  useEffect(() => {
+    dispatch(FetchProduct());
+    if (data?.length < 0) {
+      dispatch(FetchProduct());
+    }
+  }, []);
   return (
     <>
       <div
@@ -194,7 +317,7 @@ export default function ProductSection() {
         }
       >
         {/* Loader */}
-        <Loader loding={loding || status === "loading" ? true : false} />
+        <Loader loding={loding ? true : false} />
 
         <div className="addSection">
           <p className="sectionHeader">All Products</p>
@@ -231,22 +354,8 @@ export default function ProductSection() {
                   setPreviewURLs={setPreviewURLs}
                   imgAltText={imgAltText}
                   setImgAltText={setImgAltText}
-                  id="categorIcon"
+                  id="ProductIcon"
                 />
-              </div>
-
-              <div className="preview-container noScroll_Line categoryIconBox">
-                {previewURLs.map((url, index) => (
-                  <div key={index} className="preview-item">
-                    <img src={url} alt="thumbnail" />
-                    <button
-                      // onClick={() => handleDelete(index)}
-                      className="delete-btn"
-                    >
-                      ✖
-                    </button>
-                  </div>
-                ))}
               </div>
 
               <div className="ctgTextBox">
@@ -487,6 +596,30 @@ export default function ProductSection() {
                   onChange={(e) => handleChangeProductVal(e, "create")}
                   placeholder="Enter Categroy Title"
                 />
+                <div className="bannerImgUploadBox">
+                  <div className="imageUploader">
+                    <label htmlFor="bannerUpdateIcon">
+                      <img src={Image.ImageUploadIcon} alt="" />
+                    </label>
+
+                    <input
+                      id="bannerUpdateIcon"
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleBannerFileChange}
+                      style={{ display: "none" }}
+                    />
+                  </div>
+                  {bannerPreviewURLs.length > 0 && (
+                    <div className="bannerImgBox">
+                      <img
+                        alt="Upload"
+                        src={bannerPreviewURLs[bannerPreviewURLs.length - 1]}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

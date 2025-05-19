@@ -53,6 +53,8 @@
   flex-direction: column;
   gap: 10px;
   overflow-y: scroll;
+position: relative;
+top: 17px;
 }
 
 /* Each thumbnail */

@@ -53,7 +53,7 @@ export const FetchCategory = createAsyncThunk<categoryDataType[]>(
   }
 );
 
-// create User
+
 export const CreateCategory = createAsyncThunk<categoryDataType, categoryDataType>(
   "Category/create",
   async (data, { rejectWithValue }) => {

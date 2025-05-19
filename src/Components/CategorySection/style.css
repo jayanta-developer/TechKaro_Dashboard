@@ -57,7 +57,11 @@
   border: 1px solid rgb(255, 209, 209);
   border-radius: 10px;
 }
-.categoryEditBox input{
+.categoryEditBox input {
   margin: 0;
   height: 40px;
+}
+
+.imgPreviewBoxTop .imgPreviewBox {
+  display: none;
 }

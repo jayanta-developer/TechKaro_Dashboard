@@ -22,12 +22,23 @@ const MultipleImageUpload = ({
   setImgAltText,
   id,
 }: ImageUploadProps) => {
-  
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files ? Array.from(e.target.files) : [];
     const fileArray = files.map((file) => URL.createObjectURL(file));
     setImages((prev) => [...prev, ...files]);
     setPreviewURLs((prev) => [...prev, ...fileArray]);
+  };
+
+  const handleDelete = (index: number) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+    const updatedPreviews = previewURLs.filter((_, i) => i !== index);
+    setImages(updatedImages);
+    setPreviewURLs(updatedPreviews);
+
+    // Remove alt text entry as well
+    const updatedAltText = { ...imgAltText };
+    delete updatedAltText[String(index)];
+    setImgAltText(updatedAltText);
   };
 
   return (
@@ -44,6 +55,26 @@ const MultipleImageUpload = ({
           onChange={handleFileChange}
           style={{ display: "none" }}
         />
+        <div className="preview-container noScroll_Line imgPreviewBox">
+          {previewURLs.map((url, index) => (
+            <div key={index} className="preview-item">
+              <img src={url} alt="thumbnail" />
+              <button
+                onClick={() => handleDelete(index)}
+                className="delete-btn"
+              >
+                ✖
+              </button>
+              {/* <textarea
+              name={String(index)}
+              className="imgAltTextInput"
+              placeholder="ALT Text"
+              onChange={handleLocalAltVal}
+              value={imgAltText[String(index)] || ""}
+            /> */}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
