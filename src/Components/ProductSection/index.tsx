@@ -8,17 +8,23 @@ import { Image } from "../../assets/Images";
 import { toast } from "react-toastify";
 import {
   AppBtn,
-  AppHoloBtn,
-  AppOrangeBtn,
   AddMoreBtn,
   RemoveBtn,
+  AppHoloBtn,
+  AppOrangeBtn,
 } from "../AppButton";
 import MultipleImageUpload from "../../Components/ImageUploader";
 import { uploadImage } from "../../Util/ImageUploader";
-import { GoTop, Loader } from "../Tools";
+import { GoTop, Loader, DropBox } from "../Tools";
 
-import type { productDataType } from "../../Store/ProductSlice";
-import { FetchProduct, CreateProduct } from "../../Store/ProductSlice";
+import type { productStateType } from "../../Store/ProductSlice";
+import { FetchCategory } from "../../Store/CategorySlice";
+import {
+  FetchProduct,
+  CreateProduct,
+  UpdateProduct,
+  DeleteProduct,
+} from "../../Store/ProductSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../Store/store";
 
@@ -26,15 +32,19 @@ export default function ProductSection() {
   const ActivePage = localStorage.getItem("ActivePage");
   const dispatch = useDispatch<AppDispatch>();
   const { data, status } = useSelector((state: RootState) => state.product);
-  console.log(data, status);
+  const category = useSelector((state: RootState) => state.category);
+  console.log(category?.data);
+
   const [loding, setLoading] = useState(false);
   const [createProductPop, setCreateProductPop] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [previewURLs, setPreviewURLs] = useState<string[]>([]);
   const [bannerImages, setBannerImages] = useState<File[]>([]);
   const [bannerPreviewURLs, setBannerPreviewURLs] = useState<string[]>([]);
+  const [categoryDrop, setCategroyDrop] = useState<string>();
+
   const [imgAltText, setImgAltText] = useState<Record<string, string>>({});
-  const [productLocVal, setProductLocVal] = useState<productDataType>({
+  const [productLocVal, setProductLocVal] = useState<productStateType>({
     title: "",
     aboutTitle: "",
     aboutSummary: "",
@@ -59,9 +69,42 @@ export default function ProductSection() {
   const [keyInsightsData, setKeyInsightsData] = useState([
     { title: "", value: "" },
   ]);
-  const [AdvertisingCostData, setAdvertisingCostData] = useState([
-    { title: "", value: "" },
+  const [AdvertisingCostData, setAdvertisingCostData] = useState<
+    { title: string; value: string; _id?: string }[]
+  >([{ title: "", value: "" }]);
+  //update state
+  const [updateIndex, setUpdateIndex] = useState<number>(1111111111111);
+  const [productLocUpdateVal, setProductLocUpdateVal] = useState({
+    title: "",
+    aboutTitle: "",
+    aboutSummary: "",
+    userCoutnTitle: "",
+    userCountValue: "",
+    infoCountTitle: "",
+    infoCountValue: "",
+    bannerTitle: "",
+    bannerSummary: "",
+  });
+  const [summaryUpdateParagraph, setSummaryUpdateParagraph] = useState([
+    {
+      title: "",
+      summarys: [
+        {
+          summary: "",
+        },
+      ],
+    },
   ]);
+  const [keyInsightsUpdateData, setKeyInsightsUpdateData] = useState<
+    { title: string; value: string; _id?: string }[]
+  >([{ title: "", value: "" }]);
+  const [AdvertisingCostUpdateData, setAdvertisingCostUpdateData] = useState<
+    { title: string; value: string; _id?: string }[]
+  >([{ title: "", value: "" }]);
+
+  //dalete
+  const [deletePop, setDeletePop] = useState(false);
+  const [deleteProductId, setDeleteProductId] = useState<string>();
 
   const handleAddSummary = (section: string, index?: number) => {
     if (section === "ELGBTBPoints") {
@@ -77,9 +120,31 @@ export default function ProductSection() {
         },
       ]);
     }
+    if (section === "addSummarySection") {
+      setSummaryUpdateParagraph((prevData) => [
+        ...prevData,
+        {
+          title: "",
+          summarys: [
+            {
+              summary: "",
+            },
+          ],
+        },
+      ]);
+    }
 
     if (section === "summaryParagraph") {
       setSummaryParagraph((prev) =>
+        prev.map((item, i) =>
+          i === index
+            ? { ...item, summarys: [...item.summarys, { summary: "" }] }
+            : item
+        )
+      );
+    }
+    if (section === "addSummary") {
+      setSummaryUpdateParagraph((prev) =>
         prev.map((item, i) =>
           i === index
             ? { ...item, summarys: [...item.summarys, { summary: "" }] }
@@ -105,14 +170,50 @@ export default function ProductSection() {
         },
       ]);
     }
+    if (section === "KeyInsightsUpdate") {
+      setKeyInsightsUpdateData((prevData) => [
+        ...prevData,
+        {
+          title: "",
+          value: "",
+        },
+      ]);
+    }
+    if (section === "AdvertisingUpdate") {
+      setAdvertisingCostUpdateData((prevData) => [
+        ...prevData,
+        {
+          title: "",
+          value: "",
+        },
+      ]);
+    }
   };
 
   const handleRemoveSummary = (section: string, index?: number) => {
     if (section === "ELGBTBPoints") {
       setSummaryParagraph((prevData) => prevData.slice(0, -1));
     }
+    if (section === "addSummarySection") {
+      setSummaryUpdateParagraph((prevData) => prevData.slice(0, -1));
+    }
     if (section === "summaryParagraph") {
       setSummaryParagraph((prev) =>
+        prev.map((item, i) =>
+          i === index
+            ? {
+                ...item,
+                summarys:
+                  item.summarys.length > 1
+                    ? item.summarys.slice(0, -1) // Removes the last item
+                    : item.summarys,
+              }
+            : item
+        )
+      );
+    }
+    if (section === "addSummary") {
+      setSummaryUpdateParagraph((prev) =>
         prev.map((item, i) =>
           i === index
             ? {
@@ -132,6 +233,12 @@ export default function ProductSection() {
     if (section === "Advertising") {
       setAdvertisingCostData((prevData) => prevData.slice(0, -1));
     }
+    if (section === "KeyInsightsUpdate") {
+      setKeyInsightsUpdateData((prevData) => prevData.slice(0, -1));
+    }
+    if (section === "AdvertisingUpdate") {
+      setAdvertisingCostUpdateData((prevData) => prevData.slice(0, -1));
+    }
   };
 
   const handleChangeForMap = (
@@ -144,6 +251,24 @@ export default function ProductSection() {
 
     if (section === "EGBLTChange") {
       setSummaryParagraph((prev) =>
+        prev.map((item, i) =>
+          i === index
+            ? {
+                ...item,
+                ...(summaryIndex !== undefined
+                  ? {
+                      summarys: item.summarys.map((bp: any, j: number) =>
+                        j === summaryIndex ? { ...bp, summary: value } : bp
+                      ),
+                    }
+                  : { [name]: value }),
+              }
+            : item
+        )
+      );
+    }
+    if (section === "summaryUpdateChange") {
+      setSummaryUpdateParagraph((prev) =>
         prev.map((item, i) =>
           i === index
             ? {
@@ -174,6 +299,20 @@ export default function ProductSection() {
         )
       );
     }
+    if (section === "KeyInsightsUpdate") {
+      setKeyInsightsUpdateData((prevData) =>
+        prevData.map((item, i) =>
+          i === index ? { ...item, [name]: value } : item
+        )
+      );
+    }
+    if (section === "AdvertisingUpdate") {
+      setAdvertisingCostUpdateData((prevData) =>
+        prevData.map((item, i) =>
+          i === index ? { ...item, [name]: value } : item
+        )
+      );
+    }
   };
   const handleChangeProductVal = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -183,6 +322,12 @@ export default function ProductSection() {
 
     if (section === "create") {
       setProductLocVal((prv) => ({
+        ...prv,
+        [name]: value,
+      }));
+    }
+    if (section === "update") {
+      setProductLocUpdateVal((prv) => ({
         ...prv,
         [name]: value,
       }));
@@ -206,49 +351,11 @@ export default function ProductSection() {
       toast.warn("Please select a image for Product");
       return;
     }
-    const BannderimageUrls = await uploadImage(bannerPreviewURLs);
+    const BannderimageUrls = (await uploadImage(bannerPreviewURLs)) || [];
     if (!imageUrls?.length) {
       setLoading(false);
       toast.warn("Please select a image for Banner");
       return;
-    }
-
-    console.log(imageUrls);
-    console.log(BannderimageUrls);
-    console.log({
-      title: productLocVal?.title,
-      image: imageUrls[0],
-      About: {
-        title: productLocVal?.aboutTitle,
-        summary: productLocVal?.aboutSummary,
-      },
-      userCount: {
-        title: productLocVal.userCoutnTitle,
-        count: productLocVal.userCountValue,
-      },
-      infoCount: {
-        title: productLocVal?.infoCountTitle,
-        count: productLocVal?.infoCountValue,
-      },
-      KeyInsights: keyInsightsData,
-      AdvertisingCost: AdvertisingCostData,
-
-      summary: summaryParagraph,
-      bannerData: {
-        title: productLocVal?.bannerTitle,
-        summary: productLocVal?.bannerSummary,
-        img: {},
-      },
-    });
-
-    if (
-      !productLocVal.title ||
-      !productLocVal.aboutTitle ||
-      !productLocVal.aboutSummary ||
-    ) {
-      console.log("all value is not there");
-    } else {
-      console.log("all value is there");
     }
 
     if (
@@ -264,47 +371,150 @@ export default function ProductSection() {
       !productLocVal.infoCountTitle ||
       !productLocVal.infoCountValue ||
       !summaryParagraph[0]?.title.length ||
-      !productLocVal.bannerImg
+      !BannderimageUrls?.length ||
+      !categoryDrop
     ) {
       setLoading(false);
-      console.log("all value is not there");
-
       toast.warn("Please fill all the values!");
       return;
     }
 
-    // dispatch(
-    //   CreateProduct({
-    //     title: productLocVal?.title,
-    //     image: imageUrls[0],
-    //     About: {
-    //       title: productLocVal?.aboutTitle,
-    //       summary: productLocVal?.aboutSummary,
-    //     },
-    //     KeyInsights: keyInsightsData,
-    //     AdvertisingCost: AdvertisingCostData,
-    //     userCount: {
-    //       title: productLocVal.userCoutnTitle,
-    //       count: productLocVal.userCountValue,
-    //     },
-    //     infoCount: {
-    //       title: productLocVal?.infoCountTitle,
-    //       count: productLocVal?.infoCountValue,
-    //     },
-    //     summary: summaryParagraph,
-    //     bannerData: {
-    //       title: productLocVal?.bannerTitle,
-    //       summary: productLocVal?.bannerSummary,
-    //       img: {},
-    //     },
-    //   })
-    // );
+    dispatch(
+      CreateProduct({
+        title: productLocVal?.title,
+        image: imageUrls[0],
+        About: {
+          title: productLocVal?.aboutTitle,
+          summary: productLocVal?.aboutSummary,
+        },
+        KeyInsights: keyInsightsData,
+        AdvertisingCost: AdvertisingCostData,
+        userCount: {
+          title: productLocVal.userCoutnTitle,
+          count: productLocVal.userCountValue,
+        },
+        infoCount: {
+          title: productLocVal?.infoCountTitle,
+          count: productLocVal?.infoCountValue,
+        },
+        summary: summaryParagraph,
+        bannerData: {
+          title: productLocVal?.bannerTitle,
+          summary: productLocVal?.bannerSummary,
+          img: BannderimageUrls[0],
+        },
+        category: categoryDrop,
+      })
+    );
+  };
+
+  //update product
+  const handleActiveEdit = (index: number) => {
+    setUpdateIndex(index);
+    setProductLocUpdateVal((prv) => ({
+      ...prv,
+      title: data[index]?.title,
+      aboutTitle: data[index]?.About?.title,
+      aboutSummary: data[index]?.About?.summary,
+      userCoutnTitle: data[index]?.userCount?.title,
+      userCountValue: data[index]?.userCount?.count,
+      infoCountTitle: data[index]?.infoCount?.title,
+      infoCountValue: data[index]?.infoCount?.count,
+      bannerTitle: data[index]?.bannerData?.title || "",
+      bannerSummary: data[index]?.bannerData?.summary || "",
+    }));
+    setSummaryUpdateParagraph(data[index].summary);
+    if (data[index].KeyInsights) {
+      setKeyInsightsUpdateData(data[index].KeyInsights);
+    }
+    if (data[index].AdvertisingCost) {
+      setAdvertisingCostUpdateData(data[index].AdvertisingCost);
+    }
+  };
+  const updateProduct = async () => {
+    if (!data[updateIndex]?._id) {
+      toast.warn("Product Id not found");
+      return;
+    }
+
+    const imageUrls = await uploadImage(previewURLs);
+    const BannderimageUrls = (await uploadImage(bannerPreviewURLs)) || [];
+
+    dispatch(
+      UpdateProduct({
+        data: {
+          ...(productLocUpdateVal?.title.length && {
+            title: productLocUpdateVal?.title,
+          }),
+          ...(imageUrls?.length && {
+            image: imageUrls[0],
+          }),
+          ...(keyInsightsUpdateData[0]?.title.length && {
+            KeyInsights: keyInsightsUpdateData,
+          }),
+          ...(AdvertisingCostUpdateData[0]?.title.length && {
+            AdvertisingCost: AdvertisingCostUpdateData,
+          }),
+          ...(productLocUpdateVal?.aboutTitle.length && {
+            About: {
+              title: productLocUpdateVal?.aboutTitle,
+              summary: productLocUpdateVal?.aboutTitle,
+            },
+          }),
+          ...(productLocUpdateVal?.userCoutnTitle.length && {
+            userCount: {
+              title: productLocUpdateVal?.userCoutnTitle,
+              count: productLocUpdateVal?.userCountValue,
+            },
+          }),
+          ...(productLocUpdateVal?.infoCountTitle.length && {
+            infoCount: {
+              title: productLocUpdateVal?.infoCountTitle,
+              count: productLocUpdateVal?.infoCountValue,
+            },
+          }),
+          ...(summaryUpdateParagraph[0]?.title.length && {
+            summary: summaryUpdateParagraph,
+          }),
+          ...(productLocUpdateVal.bannerTitle.length && {
+            bannerData: {
+              title: productLocUpdateVal?.bannerTitle,
+              summary: productLocUpdateVal?.bannerSummary,
+              ...(BannderimageUrls.length && {
+                img: BannderimageUrls[0],
+              }),
+            },
+          }),
+          ...(categoryDrop && {
+            category: categoryDrop,
+          }),
+        },
+        id: data[updateIndex]?._id,
+      })
+    );
+  };
+
+  ///Delte Product----------------------------------
+  const DeletePopOpen = (id: string | undefined) => {
+    GoTop();
+    setDeleteProductId(id);
+    setDeletePop(true);
+  };
+
+  const HandleDeleteBlog = () => {
+    if (deleteProductId) {
+      dispatch(DeleteProduct(deleteProductId));
+    }
   };
 
   useEffect(() => {
     dispatch(FetchProduct());
+    dispatch(FetchCategory());
     if (data?.length < 0) {
       dispatch(FetchProduct());
+    }
+    if (category.data?.length < 0) {
+      dispatch(FetchCategory());
     }
   }, []);
   return (
@@ -318,6 +528,20 @@ export default function ProductSection() {
       >
         {/* Loader */}
         <Loader loding={loding ? true : false} />
+
+        {/* ---------Delete pop */}
+        <div className={deletePop ? "grayBox ActiveGrayBox" : "grayBox"}>
+          <div className="popBox">
+            <h3>You want to delete this Blog ?</h3>
+            <div className="popBtnBox">
+              <AppHoloBtn
+                btnText="Cancel"
+                onClick={() => setDeletePop(false)}
+              />
+              <AppOrangeBtn btnText="Delete" onClick={HandleDeleteBlog} />
+            </div>
+          </div>
+        </div>
 
         <div className="addSection">
           <p className="sectionHeader">All Products</p>
@@ -431,6 +655,23 @@ export default function ProductSection() {
                       placeholder="Enter Categroy Title"
                     />
                   </div>
+                </div>
+
+                <div className="createDropBox">
+                  <p className="inputLabel">Select Category</p>
+                  <select
+                    id="drop"
+                    style={{ width: "100%" }}
+                    className="DropBox"
+                    onChange={(e) => setCategroyDrop(e.target.value)}
+                  >
+                    <option value="">Select Category</option>
+                    {category.data?.map((el, i: number) => (
+                      <option key={i} value={el?._id}>
+                        {el?.title}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 {/* -----------Key Insights------------------- */}
                 <h2>Key Insights</h2>
@@ -623,6 +864,438 @@ export default function ProductSection() {
               </div>
             </div>
           </div>
+          {/* ----------------------------------------Render Product------------------------------------------ */}
+          {data.length === 0 ? (
+            <div style={{ display: "flex" }} className="nodataBox">
+              <img src={Image.NODataImg} alt="" />
+            </div>
+          ) : (
+            <div style={{ display: "block" }}>
+              {data?.map((el, i: number) => (
+                <div key={i} className="section">
+                  {/* BTN Box */}
+                  <div
+                    className={
+                      i != updateIndex
+                        ? "cardTopBtnBox cardTopBtnBoxColaps"
+                        : "cardTopBtnBox"
+                    }
+                  >
+                    {i != updateIndex ? null : (
+                      <AppBtn
+                        btnText="Save"
+                        height="32px"
+                        onClick={updateProduct}
+                      />
+                    )}
+                    {i != updateIndex ? (
+                      <img
+                        src={Image.editIcon}
+                        className="editIcon"
+                        alt=""
+                        onClick={() => handleActiveEdit(i)}
+                      />
+                    ) : (
+                      <img
+                        style={{ width: "27px" }}
+                        src={Image.crossIcon}
+                        className="editIcon"
+                        alt=""
+                        onClick={() => {
+                          setUpdateIndex(9999);
+                          // Reloader(100);
+                        }}
+                      />
+                    )}
+
+                    <img
+                      src={Image.deleteIcon}
+                      className="deleteIcon"
+                      alt=""
+                      onClick={() => DeletePopOpen(el?._id)}
+                    />
+                  </div>
+
+                  {i != updateIndex ? (
+                    <div className="categoryNormalView">
+                      <div className="categoryImgBox">
+                        <img className="categoryNImg" alt="" src={el?.image} />
+                      </div>
+                      <div className="ctgTextBox">
+                        <h2>{el?.title}</h2>
+                        {/* <p>{el?.category?.title}</p> */}
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="categoryEditView prod">
+                        <div className="outerImgUploadBox noScroll_Line">
+                          <MultipleImageUpload
+                            images={images}
+                            setImages={setImages}
+                            previewURLs={previewURLs}
+                            setPreviewURLs={setPreviewURLs}
+                            imgAltText={imgAltText}
+                            setImgAltText={setImgAltText}
+                            id="ProductIcon"
+                          />
+                        </div>
+
+                        <div className="ctgTextBox">
+                          <p className="inputLabel">Title</p>
+                          <input
+                            className="inputField"
+                            type="text"
+                            name="title"
+                            value={productLocUpdateVal?.title}
+                            onChange={(e) =>
+                              handleChangeProductVal(e, "update")
+                            }
+                            placeholder="Enter Categroy Title"
+                          />
+                          <p className="inputLabel">About Title</p>
+                          <input
+                            className="inputField"
+                            type="text"
+                            name="aboutTitle"
+                            value={productLocUpdateVal?.aboutTitle}
+                            onChange={(e) =>
+                              handleChangeProductVal(e, "update")
+                            }
+                            placeholder="Enter Categroy Title"
+                          />
+                          <p className="inputLabel">About Summary</p>
+                          <textarea
+                            className="inputField"
+                            name="aboutSummary"
+                            value={productLocUpdateVal?.aboutSummary}
+                            onChange={(e) =>
+                              handleChangeProductVal(e, "update")
+                            }
+                            placeholder="Enter Categroy Title"
+                          />
+
+                          <div className="threeInBox">
+                            <div className="thrInputBox">
+                              <p className="inputLabel">User Count Title</p>
+                              <input
+                                className="inputField"
+                                type="text"
+                                name="userCoutnTitle"
+                                value={productLocUpdateVal?.userCoutnTitle}
+                                onChange={(e) =>
+                                  handleChangeProductVal(e, "update")
+                                }
+                                placeholder="Enter Categroy Title"
+                              />
+                            </div>
+                            <div className="thrInputBox">
+                              <p className="inputLabel">User Count Value</p>
+                              <input
+                                className="inputField"
+                                type="text"
+                                name="userCountValue"
+                                value={productLocUpdateVal?.userCountValue}
+                                onChange={(e) =>
+                                  handleChangeProductVal(e, "update")
+                                }
+                                placeholder="Enter Categroy Title"
+                              />
+                            </div>
+                            <div className="thrInputBox">
+                              <p className="inputLabel">Info Coutn title</p>
+                              <input
+                                className="inputField"
+                                type="text"
+                                name="infoCountTitle"
+                                value={productLocUpdateVal?.infoCountTitle}
+                                onChange={(e) =>
+                                  handleChangeProductVal(e, "update")
+                                }
+                                placeholder="Enter Categroy Title"
+                              />
+                            </div>
+                            <div className="thrInputBox">
+                              <p className="inputLabel">Info Coutn Value</p>
+                              <input
+                                className="inputField"
+                                type="text"
+                                name="infoCountValue"
+                                value={productLocUpdateVal?.infoCountValue}
+                                onChange={(e) =>
+                                  handleChangeProductVal(e, "update")
+                                }
+                                placeholder="Enter Categroy Title"
+                              />
+                            </div>
+                          </div>
+                          <div className="createDropBox">
+                            <p className="inputLabel">Select Category</p>
+                            <select
+                              id="drop"
+                              style={{ width: "100%" }}
+                              className="DropBox"
+                              onChange={(e) => setCategroyDrop(e.target.value)}
+                            >
+                              <option value="">
+                                {category?.data?.find(
+                                  (cval) => cval?._id === el?.category
+                                )?.title || "Select Category"}
+                              </option>
+                              {category.data?.map((el, i: number) => (
+                                <option key={i} value={el?._id}>
+                                  {el?.title}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          {/* -----------Key Insights------------------- */}
+                          <h2>Key Insights</h2>
+                          <div className="featuresBox">
+                            {keyInsightsUpdateData?.map((fVal, i: number) => (
+                              <div key={i} className="featureInputCard">
+                                <p className="inputLabel">Title</p>
+                                <input
+                                  className="inputField"
+                                  placeholder="Enter Insights title..."
+                                  type="text"
+                                  name="title"
+                                  value={fVal?.title}
+                                  onChange={(e) =>
+                                    handleChangeForMap(
+                                      e,
+                                      i,
+                                      "KeyInsightsUpdate"
+                                    )
+                                  }
+                                />
+                                <p className="inputLabel">Value</p>
+                                <input
+                                  className="inputField"
+                                  placeholder="Enter Insights value..."
+                                  name="value"
+                                  value={fVal?.value}
+                                  onChange={(e) =>
+                                    handleChangeForMap(
+                                      e,
+                                      i,
+                                      "KeyInsightsUpdate"
+                                    )
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </div>
+                          <div className="featureBtnBox">
+                            <AddMoreBtn
+                              icon={Image.addIcon}
+                              btnText="Add More"
+                              onClick={() =>
+                                handleAddSummary("KeyInsightsUpdate")
+                              }
+                            />
+                            {keyInsightsData.length ? (
+                              <RemoveBtn
+                                icon={Image.minusIcon}
+                                btnText="Remove"
+                                onClick={() =>
+                                  handleRemoveSummary("KeyInsightsUpdate")
+                                }
+                              />
+                            ) : null}
+                          </div>
+
+                          {/* ----------------Advertising Cost---------------------- */}
+                          <h2>Advertising Cost</h2>
+                          <div className="featuresBox">
+                            {AdvertisingCostUpdateData?.map(
+                              (fVal, i: number) => (
+                                <div key={i} className="featureInputCard">
+                                  <p className="inputLabel">Title</p>
+                                  <input
+                                    className="inputField"
+                                    placeholder="Enter Advertising title..."
+                                    type="text"
+                                    name="title"
+                                    value={fVal?.title}
+                                    onChange={(e) =>
+                                      handleChangeForMap(
+                                        e,
+                                        i,
+                                        "AdvertisingUpdate"
+                                      )
+                                    }
+                                  />
+                                  <p className="inputLabel">Value</p>
+                                  <input
+                                    className="inputField"
+                                    placeholder="Enter Advertising value..."
+                                    name="value"
+                                    value={fVal?.value}
+                                    onChange={(e) =>
+                                      handleChangeForMap(
+                                        e,
+                                        i,
+                                        "AdvertisingUpdate"
+                                      )
+                                    }
+                                  />
+                                </div>
+                              )
+                            )}
+                          </div>
+                          <div className="featureBtnBox">
+                            <AddMoreBtn
+                              icon={Image.addIcon}
+                              btnText="Add More"
+                              onClick={() =>
+                                handleAddSummary("AdvertisingUpdate")
+                              }
+                            />
+                            {keyInsightsUpdateData.length ? (
+                              <RemoveBtn
+                                icon={Image.minusIcon}
+                                btnText="Remove"
+                                onClick={() =>
+                                  handleRemoveSummary("AdvertisingUpdate")
+                                }
+                              />
+                            ) : null}
+                          </div>
+
+                          <h2>Summary Paragraphs</h2>
+                          {summaryUpdateParagraph?.map((bl, i) => (
+                            <div key={i} className="overviewInputBox">
+                              <p className="inputLabel">Title</p>
+                              <input
+                                className="inputField"
+                                name="title"
+                                value={bl.title}
+                                onChange={(e) =>
+                                  handleChangeForMap(
+                                    e,
+                                    i,
+                                    "summaryUpdateChange"
+                                  )
+                                }
+                                placeholder="Enter title..."
+                              />
+                              <h2>Add summary</h2>
+                              {bl?.summarys?.map((blPoint: any, j: number) => (
+                                <div key={j} className="bulletPointRow">
+                                  <input
+                                    className="inputField"
+                                    name="summary"
+                                    value={blPoint.summary}
+                                    onChange={(e) =>
+                                      handleChangeForMap(
+                                        e,
+                                        i,
+                                        "summaryUpdateChange",
+                                        j
+                                      )
+                                    }
+                                    placeholder="Enter summary point..."
+                                  />
+                                </div>
+                              ))}
+                              <div className="featureBtnBox">
+                                <AddMoreBtn
+                                  icon={Image.addIcon}
+                                  btnText="Add More"
+                                  onClick={() =>
+                                    handleAddSummary("addSummary", i)
+                                  }
+                                />
+                                {bl.summarys.length > 1 && (
+                                  <RemoveBtn
+                                    icon={Image.minusIcon}
+                                    btnText="Remove"
+                                    onClick={() =>
+                                      handleRemoveSummary("addSummary", i)
+                                    }
+                                  />
+                                )}
+                              </div>
+                            </div>
+                          ))}
+
+                          <div className="featureBtnBox">
+                            <AddMoreBtn
+                              icon={Image.addIcon}
+                              btnText="Add More"
+                              onClick={() =>
+                                handleAddSummary("addSummarySection")
+                              }
+                            />
+                            {summaryUpdateParagraph.length ? (
+                              <RemoveBtn
+                                icon={Image.minusIcon}
+                                btnText="Remove"
+                                onClick={() =>
+                                  handleRemoveSummary("addSummarySection")
+                                }
+                              />
+                            ) : null}
+                          </div>
+
+                          <p className="inputLabel">Banner Title</p>
+                          <input
+                            className="inputField"
+                            type="text"
+                            name="bannerTitle"
+                            value={productLocUpdateVal?.bannerTitle}
+                            onChange={(e) =>
+                              handleChangeProductVal(e, "update")
+                            }
+                            placeholder="Enter Categroy Title"
+                          />
+                          <p className="inputLabel">Banner Summary</p>
+                          <textarea
+                            className="inputField"
+                            name="bannerSummary"
+                            value={productLocUpdateVal?.bannerSummary}
+                            onChange={(e) =>
+                              handleChangeProductVal(e, "update")
+                            }
+                            placeholder="Enter Categroy Title"
+                          />
+                          <div className="bannerImgUploadBox">
+                            <div className="imageUploader">
+                              <label htmlFor="bannerUpdateIcon">
+                                <img src={Image.ImageUploadIcon} alt="" />
+                              </label>
+
+                              <input
+                                id="bannerUpdateIcon"
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                onChange={handleBannerFileChange}
+                                style={{ display: "none" }}
+                              />
+                            </div>
+                            {el?.bannerData?.img && (
+                              <div className="bannerImgBox">
+                                <img
+                                  alt="Upload"
+                                  src={
+                                    bannerPreviewURLs.length
+                                      ? bannerPreviewURLs[0]
+                                      : el?.bannerData?.img
+                                  }
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

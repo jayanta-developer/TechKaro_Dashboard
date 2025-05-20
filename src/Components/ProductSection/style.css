@@ -58,3 +58,14 @@
   height: 100%;
   object-fit: cover;
 }
+.ProductRow {
+  width: 100%;
+}
+.prod .outerImgUploadBox {
+  width: unset;
+  min-width: 140px;
+}
+.createDropBox {
+  width: 25%;
+  margin-bottom: 10px;
+}
