@@ -33,7 +33,6 @@ export default function ProductSection() {
   const dispatch = useDispatch<AppDispatch>();
   const { data, status } = useSelector((state: RootState) => state.product);
   const category = useSelector((state: RootState) => state.category);
-  console.log(category?.data);
 
   const [loding, setLoading] = useState(false);
   const [createProductPop, setCreateProductPop] = useState(false);
@@ -341,7 +340,7 @@ export default function ProductSection() {
     setBannerImages((prev) => [...prev, ...files]);
     setBannerPreviewURLs((prev) => [...prev, ...fileArray]);
   };
-  // create Product
+  // create Product----------------------------------------------
   const postProduct = async () => {
     setLoading(true);
 
@@ -408,7 +407,7 @@ export default function ProductSection() {
     );
   };
 
-  //update product
+  //update product-------------------------------------------------
   const handleActiveEdit = (index: number) => {
     setUpdateIndex(index);
     setProductLocUpdateVal((prv) => ({
