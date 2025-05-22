@@ -107,11 +107,11 @@ export const CreateProduct = createAsyncThunk<productDataType, productDataType>(
         ...data,
       });
       toast.success("product created successfully.");
-      // Reloader(600);
+      Reloader(600);
       return response.data;
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Something went wrong");
-      // Reloader(900);
+      Reloader(900);
       return rejectWithValue(error.response?.data || "Something went wrong");
     }
   }
