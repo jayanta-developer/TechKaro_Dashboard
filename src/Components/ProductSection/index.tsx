@@ -42,7 +42,6 @@ export default function ProductSection() {
   const [bannerPreviewURLs, setBannerPreviewURLs] = useState<string[]>([]);
   const [categoryDrop, setCategroyDrop] = useState<string>();
 
-  const [imgAltText, setImgAltText] = useState<Record<string, string>>({});
   const [productLocVal, setProductLocVal] = useState<productStateType>({
     title: "",
     aboutTitle: "",
@@ -575,8 +574,6 @@ export default function ProductSection() {
                   setImages={setImages}
                   previewURLs={previewURLs}
                   setPreviewURLs={setPreviewURLs}
-                  imgAltText={imgAltText}
-                  setImgAltText={setImgAltText}
                   id="ProductIcon"
                 />
               </div>
@@ -934,8 +931,6 @@ export default function ProductSection() {
                             setImages={setImages}
                             previewURLs={previewURLs}
                             setPreviewURLs={setPreviewURLs}
-                            imgAltText={imgAltText}
-                            setImgAltText={setImgAltText}
                             id="ProductIcon"
                           />
                         </div>

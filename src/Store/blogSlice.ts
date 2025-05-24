@@ -11,6 +11,7 @@ export const baseURL = import.meta.env.VITE_BASE_URL;
 export interface blogTextType {
   title: string;
   summarys: { summary: string }[];
+  image?: string;
 }
 export interface BlogDataType {
   title?: string;

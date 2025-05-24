@@ -5,7 +5,7 @@ import "./style.css";
 import { Image } from "../../assets/Images";
 
 //components
-import { Loader, GoTop, DropBox } from "../Tools";
+import { Loader, GoTop } from "../Tools";
 import {
   AppBtn,
   AddMoreBtn,
@@ -37,8 +37,6 @@ export default function BlogSection() {
   const [createBlogPop, setCreateBlogPop] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [previewURLs, setPreviewURLs] = useState<string[]>([]);
-  const [imgAltText, setImgAltText] = useState<Record<string, string>>({});
-  const [categoryDropVal, setCategoryDropVal] = useState<string>();
   const [updateIndex, setUpdateIndex] = useState<number>(1111111111111);
   const [deletePop, setDeletePop] = useState(false);
   const [deleteBlogId, setDeleteBlogId] = useState<string>();
@@ -354,8 +352,6 @@ export default function BlogSection() {
                     setImages={setImages}
                     previewURLs={previewURLs}
                     setPreviewURLs={setPreviewURLs}
-                    imgAltText={imgAltText}
-                    setImgAltText={setImgAltText}
                     id="blogIcon"
                   />
                 </div>
@@ -527,8 +523,6 @@ export default function BlogSection() {
                               setImages={setImages}
                               previewURLs={previewURLs}
                               setPreviewURLs={setPreviewURLs}
-                              imgAltText={imgAltText}
-                              setImgAltText={setImgAltText}
                               id="blogUpdateIcon"
                             />
                           </div>

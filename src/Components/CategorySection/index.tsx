@@ -29,7 +29,6 @@ export default function CategorySection() {
   const [createCategoryPop, setCreateCategoryPop] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [previewURLs, setPreviewURLs] = useState<string[]>([]);
-  const [imgAltText, setImgAltText] = useState<Record<string, string>>({});
   const [categroyLocData, setCategoryLocData] = useState({
     title: "",
   });
@@ -141,11 +140,6 @@ export default function CategorySection() {
     const updatedPreviews = previewURLs.filter((_, i) => i !== index);
     setImages(updatedImages);
     setPreviewURLs(updatedPreviews);
-
-    // Remove alt text entry as well
-    const updatedAltText = { ...imgAltText };
-    delete updatedAltText[String(index)];
-    setImgAltText(updatedAltText);
   };
   //Upload category Icon
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -215,8 +209,6 @@ export default function CategorySection() {
                 setImages={setImages}
                 previewURLs={previewURLs}
                 setPreviewURLs={setPreviewURLs}
-                imgAltText={imgAltText}
-                setImgAltText={setImgAltText}
                 id="categorIcon"
               />
             </div>

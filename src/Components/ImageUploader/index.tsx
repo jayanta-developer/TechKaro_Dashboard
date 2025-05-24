@@ -8,8 +8,6 @@ interface ImageUploadProps {
   setImages: React.Dispatch<React.SetStateAction<File[]>>;
   previewURLs: string[];
   setPreviewURLs: React.Dispatch<React.SetStateAction<string[]>>;
-  imgAltText: Record<string, string>;
-  setImgAltText: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   id: string;
 }
 
@@ -18,8 +16,6 @@ const MultipleImageUpload = ({
   setImages,
   previewURLs,
   setPreviewURLs,
-  imgAltText,
-  setImgAltText,
   id,
 }: ImageUploadProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,11 +30,6 @@ const MultipleImageUpload = ({
     const updatedPreviews = previewURLs.filter((_, i) => i !== index);
     setImages(updatedImages);
     setPreviewURLs(updatedPreviews);
-
-    // Remove alt text entry as well
-    const updatedAltText = { ...imgAltText };
-    delete updatedAltText[String(index)];
-    setImgAltText(updatedAltText);
   };
 
   return (
@@ -65,13 +56,6 @@ const MultipleImageUpload = ({
               >
                 ✖
               </button>
-              {/* <textarea
-              name={String(index)}
-              className="imgAltTextInput"
-              placeholder="ALT Text"
-              onChange={handleLocalAltVal}
-              value={imgAltText[String(index)] || ""}
-            /> */}
             </div>
           ))}
         </div>
