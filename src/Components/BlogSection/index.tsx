@@ -31,25 +31,32 @@ export default function BlogSection() {
   const ActivePage = localStorage.getItem("ActivePage");
   const dispatch = useDispatch<AppDispatch>();
   const { data, status } = useSelector((state: RootState) => state.blog);
-  console.log(data);
+  // console.log(data);
 
   const [loding, setLoading] = useState(false);
   const [createBlogPop, setCreateBlogPop] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [previewURLs, setPreviewURLs] = useState<string[]>([]);
+  const [previewBlogURLs, setPreviewBlogURLs] = useState<
+    { url: string; index: number }[]
+  >([]);
+  console.log(previewBlogURLs);
+
   const [updateIndex, setUpdateIndex] = useState<number>(1111111111111);
   const [deletePop, setDeletePop] = useState(false);
   const [deleteBlogId, setDeleteBlogId] = useState<string>();
   const [blogTitle, setBlogTitle] = useState<string>("");
   const [metaTitle, setMetaTitle] = useState<string>("");
   const [metaDescription, setMetaDescription] = useState<string>("");
-
   const [blogSummaryData, setBlogSummaryData] = useState<blogTextType[]>([
     {
       title: "",
       summarys: [{ summary: "" }],
+      image: "",
     },
   ]);
+  console.log(blogSummaryData);
+
   const [blogUpdateTitle, setBlogUpdateTitle] = useState<string>("");
   const [metaTitleUpdate, setMetaTitleUpdate] = useState<string>("");
   const [metaDescriptionUpdate, setMetaDescriptionUpdate] =
@@ -190,6 +197,65 @@ export default function BlogSection() {
       );
     }
   };
+
+  const fileToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+  //handle blog image
+
+  const handleBlogImg = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const files = e.target.files ? Array.from(e.target.files) : [];
+
+    for (const file of files) {
+      try {
+        const base64 = await fileToBase64(file); // Convert file to base64
+
+        const uploadedUrls = await uploadImage([base64]); // still expects a string[]
+
+        const uploadedUrl = uploadedUrls?.length && uploadedUrls[0]; // get first uploaded image url
+
+        if (typeof uploadedUrl !== "string") {
+          console.error("Invalid uploaded URL:", uploadedUrl);
+          return;
+        }
+
+        // Update previewBlogURLs state
+        setPreviewBlogURLs((prev) => {
+          const filtered = prev.filter((item) => item.index !== index);
+          return [...filtered, { url: uploadedUrl, index }];
+        });
+
+        // Optionally update blogSummaryData
+        setBlogSummaryData((prev) =>
+          prev.map((item, i) =>
+            i === index ? { ...item, image: uploadedUrl } : item
+          )
+        );
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    }
+  };
+
+  const handleBlogSummaryDelete = (index: number) => {
+    const updatedPreviews = previewBlogURLs.filter(
+      (item) => item.index !== index
+    );
+    setPreviewBlogURLs(updatedPreviews);
+  };
+
+  // const imageUploader = async () => {
+  //   const blogSummaryImg = await uploadImage(previewBlogURLs);
+  // };
+
   //Create Blog--------------------------------------------------------------
   const postBlogData = async () => {
     GoTop();
@@ -204,6 +270,8 @@ export default function BlogSection() {
     const imageUrls = await uploadImage(previewURLs);
     if (!imageUrls?.length) {
       toast.warn("Please select Icon for Blog");
+      setLoading(false);
+
       return;
     }
 
@@ -214,8 +282,22 @@ export default function BlogSection() {
       !blogSummaryData[0].title.length
     ) {
       toast.warn("Please fill all the values!");
+      setLoading(false);
+
       return;
     }
+
+    setBlogSummaryData((prevData) =>
+      prevData.map((item, index) => {
+        const matchedPreview = previewBlogURLs.find(
+          (preview) => preview.index === index
+        );
+        if (matchedPreview) {
+          return { ...item, image: matchedPreview?.url };
+        }
+        return item;
+      })
+    );
 
     dispatch(
       CreateBlog({
@@ -428,6 +510,39 @@ export default function BlogSection() {
                             }
                           />
                         )}
+
+                        <div className="bannerImgUploadBox">
+                          <label htmlFor={"BlogUpdateImage" + i}>
+                            <img src={Image.ImageUploadIcon} alt="" />
+                          </label>
+
+                          <input
+                            id={"BlogUpdateImage" + i}
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onClick={() => console.log(i)}
+                            onChange={(e) => handleBlogImg(e, i)}
+                            style={{ display: "none" }}
+                          />
+                        </div>
+                        {previewBlogURLs.some((val) => val.index === i) && (
+                          <div className="preview-item blogSummaryImgBox">
+                            <img
+                              src={
+                                previewBlogURLs.find((val) => val.index === i)
+                                  ?.url
+                              }
+                              alt="thumbnail"
+                            />
+                            <button
+                              onClick={() => handleBlogSummaryDelete(i)}
+                              className="delete-btn"
+                            >
+                              ✖
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -631,6 +746,11 @@ export default function BlogSection() {
                                         )
                                       }
                                     />
+                                  )}
+                                  {bl?.image?.length && (
+                                    <div className="preview-item blogSummaryImgBox">
+                                      <img src={bl?.image} alt="thumbnail" />
+                                    </div>
                                   )}
                                 </div>
                               </div>

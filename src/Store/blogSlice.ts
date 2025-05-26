@@ -42,7 +42,6 @@ export const FetchBlog = createAsyncThunk<BlogDataType[]>(
   async () => {
     const response = await fetch(`${baseURL}/blogs`);
     const data = await response.json();
-    console.log(data);
     return data;
   }
 );
