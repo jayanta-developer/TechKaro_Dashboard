@@ -1,0 +1,15 @@
+.userList {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.UserBox {
+  border: 1px solid rgba(128, 128, 128, 0.63);
+  border-radius: 15px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

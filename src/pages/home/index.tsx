@@ -8,6 +8,7 @@ import SideMenu from "../../Components/SideMenu";
 import CategorySection from "../../Components/CategorySection";
 import ProductSection from "../../Components/ProductSection";
 import BlogSection from "../../Components/BlogSection";
+import UserSection from "../../Components/UserSection"
 
 import { ToastContainer } from "react-toastify";
 
@@ -28,6 +29,7 @@ export default function Home() {
           <CategorySection />
           <ProductSection />
           <BlogSection />
+          <UserSection />
         </div>
       </div>
     </>
