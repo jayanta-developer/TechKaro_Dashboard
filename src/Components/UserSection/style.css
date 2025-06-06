@@ -12,4 +12,35 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background: #fff;
+  position: relative;
+}
+.viewIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+.PopBox {
+  width: 44%;
+  border-radius: 20px;
+  border: 1px solid rgba(128, 128, 128, 0.568);
+  background: #fff;
+  padding: 20px;
+}
+.inutBox {
+  position: relative;
+}
+.inputClickBox {
+  position: absolute;
+  right: 0px;
+  bottom: -17px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  z-index: 1;
+}
+.inputClickBox img {
+  width: 20px;
+  cursor: pointer;
 }

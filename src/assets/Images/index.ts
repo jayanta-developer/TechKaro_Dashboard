@@ -24,7 +24,16 @@ export const Image = {
   blogIcon,
   blogActiveIcon,
   saveIcon,
-  ImageUploadIcon, categroyIcon, categroy_AIcon,productIcon,product_AIcon
+  ImageUploadIcon,
+  categroyIcon,
+  categroy_AIcon,
+  productIcon,
+  product_AIcon,
+  eye,
+  openIcon,
+  copyIcon,
+  callIcon,
+  mailIcon
 };
 
 import AddIcon from "./addIcon.png";
@@ -46,16 +55,19 @@ import NODataImg from "../../assets/Images/NOData.jpg";
 import InternalServerErrImg from "../../assets/Images/intenalServerErr.jpg";
 import editIcon from "../../assets/Images/editIcon.svg";
 import deleteIcon from "../../assets/Images/DeleteIcon.svg";
-import saveIcon from "../Images/saveIcon.png"
-import ImageUploadIcon from "../Images/ImageUploadIcon.png"
+import saveIcon from "../Images/saveIcon.png";
+import ImageUploadIcon from "../Images/ImageUploadIcon.png";
 import crossIconV2 from "../../assets/Images/crossIconV2.svg";
 import addIcon from "../Images/add_Icon.png";
 import minusIcon from "../Images/minus-icon.png";
 import blogIcon from "../../assets/Images/blogIcon.png";
 import blogActiveIcon from "../../assets/Images/blogIcon_A.png";
-import categroyIcon from "../Images/categoryIcon.png"
-import categroy_AIcon from "../Images/category_AIcon.png"
-import productIcon from "../Images/productIcon.png"
-import product_AIcon from "../Images/product_AIcon.png"
-
-
+import categroyIcon from "../Images/categoryIcon.png";
+import categroy_AIcon from "../Images/category_AIcon.png";
+import productIcon from "../Images/productIcon.png";
+import product_AIcon from "../Images/product_AIcon.png";
+import eye from "../Images/eye.gif";
+import openIcon from "../Images/open.png"
+import copyIcon from "../Images/copyIcon.png"
+import mailIcon from "../Images/mailIcon.png"
+import callIcon from "../Images/callIcon.png"
