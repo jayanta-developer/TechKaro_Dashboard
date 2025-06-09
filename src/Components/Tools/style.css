@@ -75,3 +75,14 @@
   margin: 0;
   line-height: 19px;
 }
+.starBox {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+}
+
+.starBox img{
+  width: 24px;
+  height: 24px;
+}

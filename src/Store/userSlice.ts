@@ -13,6 +13,7 @@ interface UserDataType {
   email: string;
   message?: string;
   subject: string;
+  _id?: string;
 }
 
 interface UserState {

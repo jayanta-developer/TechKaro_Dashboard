@@ -69,3 +69,32 @@ export const DropBox = ({ setDropVal, list, defaultVal, width }: dropProps) => {
     </>
   );
 };
+
+interface ratingStar {
+  rating: string;
+}
+
+export const GiveStar = ({ rating }: ratingStar) => {
+  const fullStar = Image.FullStar;
+  const halfStar = Image.HulfStar;
+  const emptyStar = Image.EmptyStar;
+
+  const ratingValue = parseFloat(rating);
+  const fullCount = Math.floor(ratingValue);
+  const hasHalf = ratingValue - fullCount >= 0.5;
+  const emptyCount = 5 - fullCount - (hasHalf ? 1 : 0);
+
+  const stars: string[] = [
+    ...Array(fullCount).fill(fullStar),
+    ...(hasHalf ? [halfStar] : []),
+    ...Array(emptyCount).fill(emptyStar),
+  ];
+
+  return (
+    <div className="starBox">
+      {stars.map((star, index) => (
+        <img key={index} src={star} alt={`star-${index}`} />
+      ))}
+    </div>
+  );
+};

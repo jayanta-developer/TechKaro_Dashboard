@@ -4,13 +4,15 @@ import categoryReducer from "./CategorySlice";
 import productReducer from "./ProductSlice"
 import blogReducer from "./blogSlice"
 import userReducer from "./userSlice"
+import reviewReducer from "./reviewSlice"
 
 export const store = configureStore({
   reducer: {
     category: categoryReducer,
     product: productReducer,
     blog: blogReducer,
-    user: userReducer
+    user: userReducer,
+    review: reviewReducer
   },
 });
 

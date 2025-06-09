@@ -44,6 +44,11 @@ export default function SideMenu({ setActivePage }: SidebarProps) {
       ActiveIcon: Image.user_AIcon,
     },
     {
+      title: "Rviews",
+      icon: Image.reviewIcon,
+      ActiveIcon: Image.reviewIcon_A,
+    },
+    {
       title: "Settings",
       icon: Image.settringIcon,
       ActiveIcon: Image.settring_AIcon,

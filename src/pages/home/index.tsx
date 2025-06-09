@@ -9,6 +9,7 @@ import CategorySection from "../../Components/CategorySection";
 import ProductSection from "../../Components/ProductSection";
 import BlogSection from "../../Components/BlogSection";
 import UserSection from "../../Components/UserSection"
+import ReviewSection from "../../Components/ReviewSection"
 
 import { ToastContainer } from "react-toastify";
 
@@ -30,6 +31,7 @@ export default function Home() {
           <ProductSection />
           <BlogSection />
           <UserSection />
+          <ReviewSection />
         </div>
       </div>
     </>

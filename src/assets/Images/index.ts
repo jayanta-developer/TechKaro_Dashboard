@@ -33,7 +33,12 @@ export const Image = {
   openIcon,
   copyIcon,
   callIcon,
-  mailIcon
+  mailIcon,
+  reviewIcon,
+  reviewIcon_A,
+  FullStar,
+  HulfStar,
+  EmptyStar
 };
 
 import AddIcon from "./addIcon.png";
@@ -71,3 +76,8 @@ import openIcon from "../Images/open.png"
 import copyIcon from "../Images/copyIcon.png"
 import mailIcon from "../Images/mailIcon.png"
 import callIcon from "../Images/callIcon.png"
+import reviewIcon from "../Images/reviewIcon.png"
+import reviewIcon_A from "../Images/reviewIcon_A.png"
+import FullStar from "../Images/FullStar.png";
+import HulfStar from "../Images/HulfStar.png";
+import EmptyStar from "../Images/EmptyStar.png"

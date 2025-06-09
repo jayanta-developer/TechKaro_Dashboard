@@ -200,12 +200,12 @@ export default function ProductSection() {
         prev.map((item, i) =>
           i === index
             ? {
-                ...item,
-                summarys:
-                  item.summarys.length > 1
-                    ? item.summarys.slice(0, -1) // Removes the last item
-                    : item.summarys,
-              }
+              ...item,
+              summarys:
+                item.summarys.length > 1
+                  ? item.summarys.slice(0, -1) // Removes the last item
+                  : item.summarys,
+            }
             : item
         )
       );
@@ -215,12 +215,12 @@ export default function ProductSection() {
         prev.map((item, i) =>
           i === index
             ? {
-                ...item,
-                summarys:
-                  item.summarys.length > 1
-                    ? item.summarys.slice(0, -1) // Removes the last item
-                    : item.summarys,
-              }
+              ...item,
+              summarys:
+                item.summarys.length > 1
+                  ? item.summarys.slice(0, -1) // Removes the last item
+                  : item.summarys,
+            }
             : item
         )
       );
@@ -252,15 +252,15 @@ export default function ProductSection() {
         prev.map((item, i) =>
           i === index
             ? {
-                ...item,
-                ...(summaryIndex !== undefined
-                  ? {
-                      summarys: item.summarys.map((bp: any, j: number) =>
-                        j === summaryIndex ? { ...bp, summary: value } : bp
-                      ),
-                    }
-                  : { [name]: value }),
-              }
+              ...item,
+              ...(summaryIndex !== undefined
+                ? {
+                  summarys: item.summarys.map((bp: any, j: number) =>
+                    j === summaryIndex ? { ...bp, summary: value } : bp
+                  ),
+                }
+                : { [name]: value }),
+            }
             : item
         )
       );
@@ -270,15 +270,15 @@ export default function ProductSection() {
         prev.map((item, i) =>
           i === index
             ? {
-                ...item,
-                ...(summaryIndex !== undefined
-                  ? {
-                      summarys: item.summarys.map((bp: any, j: number) =>
-                        j === summaryIndex ? { ...bp, summary: value } : bp
-                      ),
-                    }
-                  : { [name]: value }),
-              }
+              ...item,
+              ...(summaryIndex !== undefined
+                ? {
+                  summarys: item.summarys.map((bp: any, j: number) =>
+                    j === summaryIndex ? { ...bp, summary: value } : bp
+                  ),
+                }
+                : { [name]: value }),
+            }
             : item
         )
       );

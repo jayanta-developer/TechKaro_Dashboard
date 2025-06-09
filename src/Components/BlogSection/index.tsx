@@ -85,15 +85,15 @@ export default function BlogSection() {
         prev.map((item, i) =>
           i === index
             ? {
-                ...item,
-                ...(bulletIndex !== undefined
-                  ? {
-                      summarys: item.summarys.map((bp, j) =>
-                        j === bulletIndex ? { ...bp, summary: value } : bp
-                      ),
-                    }
-                  : { [name]: value }),
-              }
+              ...item,
+              ...(bulletIndex !== undefined
+                ? {
+                  summarys: item.summarys.map((bp, j) =>
+                    j === bulletIndex ? { ...bp, summary: value } : bp
+                  ),
+                }
+                : { [name]: value }),
+            }
             : item
         )
       );
@@ -103,15 +103,15 @@ export default function BlogSection() {
         prev.map((item, i) =>
           i === index
             ? {
-                ...item,
-                ...(bulletIndex !== undefined
-                  ? {
-                      summarys: item.summarys.map((bp, j) =>
-                        j === bulletIndex ? { ...bp, summary: value } : bp
-                      ),
-                    }
-                  : { [name]: value }),
-              }
+              ...item,
+              ...(bulletIndex !== undefined
+                ? {
+                  summarys: item.summarys.map((bp, j) =>
+                    j === bulletIndex ? { ...bp, summary: value } : bp
+                  ),
+                }
+                : { [name]: value }),
+            }
             : item
         )
       );
@@ -171,12 +171,12 @@ export default function BlogSection() {
         prev.map((item, i) =>
           i === index
             ? {
-                ...item,
-                summarys:
-                  item.summarys.length > 1
-                    ? item.summarys.slice(0, -1) // Removes the last item
-                    : item.summarys,
-              }
+              ...item,
+              summarys:
+                item.summarys.length > 1
+                  ? item.summarys.slice(0, -1) // Removes the last item
+                  : item.summarys,
+            }
             : item
         )
       );
@@ -186,12 +186,12 @@ export default function BlogSection() {
         prev.map((item, i) =>
           i === index
             ? {
-                ...item,
-                summarys:
-                  item.summarys.length > 1
-                    ? item.summarys.slice(0, -1) // Removes the last item
-                    : item.summarys,
-              }
+              ...item,
+              summarys:
+                item.summarys.length > 1
+                  ? item.summarys.slice(0, -1) // Removes the last item
+                  : item.summarys,
+            }
             : item
         )
       );
