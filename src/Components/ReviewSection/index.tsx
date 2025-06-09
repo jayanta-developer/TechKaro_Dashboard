@@ -3,7 +3,7 @@ import "./style.css"
 //images
 import { Image } from '../../assets/Images';
 //compnents
-import { Loader, GoTop, GiveStar, DropBox, Reloader } from "../Tools";
+import { Loader, GoTop, GiveStar, DropBox } from "../Tools";
 import { AppBtn, AppHoloBtn, AppOrangeBtn } from "../AppButton";
 import { toast } from "react-toastify";
 
