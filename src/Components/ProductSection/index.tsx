@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./style.css";
 
 //images
@@ -15,7 +15,10 @@ import {
 } from "../AppButton";
 import MultipleImageUpload from "../../Components/ImageUploader";
 import { uploadImage } from "../../Util/ImageUploader";
-import { GoTop, Loader, DropBox } from "../Tools";
+import { GoTop, Loader } from "../Tools";
+import RichTextEditor from "../TextEditor"
+import Quill from 'quill';
+
 
 import type { productStateType } from "../../Store/ProductSlice";
 import { FetchCategory } from "../../Store/CategorySlice";
@@ -30,6 +33,8 @@ import type { RootState, AppDispatch } from "../../Store/store";
 
 export default function ProductSection() {
   const ActivePage = localStorage.getItem("ActivePage");
+  const ProductSummary = useRef<Quill | null>(null);
+  const BannerSummary = useRef<Quill | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { data, status } = useSelector((state: RootState) => state.product);
   const category = useSelector((state: RootState) => state.category);
@@ -53,6 +58,7 @@ export default function ProductSection() {
     bannerTitle: "",
     bannerSummary: "",
   });
+
   const [summaryParagraph, setSummaryParagraph] = useState([
     {
       title: "",
@@ -598,13 +604,7 @@ export default function ProductSection() {
                   placeholder="Enter Categroy Title"
                 />
                 <p className="inputLabel">About Summary</p>
-                <textarea
-                  className="inputField"
-                  name="aboutSummary"
-                  value={productLocVal?.aboutSummary}
-                  onChange={(e) => handleChangeProductVal(e, "create")}
-                  placeholder="Enter Categroy Title"
-                />
+                <RichTextEditor ref={ProductSummary} state={productLocVal?.aboutSummary} setState={(val) => setProductLocVal((prv) => ({ ...prv, aboutSummary: val }))} />
 
                 <div className="threeInBox">
                   <div className="thrInputBox">
@@ -771,7 +771,8 @@ export default function ProductSection() {
                     <h2>Add summary</h2>
                     {bl?.summarys?.map((blPoint: any, j: number) => (
                       <div key={j} className="bulletPointRow">
-                        <input
+
+                        {/* <input
                           className="inputField"
                           name="summary"
                           value={blPoint.summary}
@@ -779,6 +780,22 @@ export default function ProductSection() {
                             handleChangeForMap(e, i, "EGBLTChange", j)
                           }
                           placeholder="Enter summary point..."
+                        /> */}
+
+                        <RichTextEditor
+                          state={blPoint.summary}
+                          setState={(val) => {
+                            setSummaryParagraph((prev) => {
+                              const updated = [...prev];
+                              updated[i] = {
+                                ...updated[i],
+                                summarys: updated[i].summarys.map((s, idx) =>
+                                  idx === j ? { ...s, summary: val } : s
+                                ),
+                              };
+                              return updated;
+                            });
+                          }}
                         />
                       </div>
                     ))}
@@ -826,13 +843,9 @@ export default function ProductSection() {
                   placeholder="Enter Categroy Title"
                 />
                 <p className="inputLabel">Banner Summary</p>
-                <textarea
-                  className="inputField"
-                  name="bannerSummary"
-                  value={productLocVal?.bannerSummary}
-                  onChange={(e) => handleChangeProductVal(e, "create")}
-                  placeholder="Enter Categroy Title"
-                />
+                <RichTextEditor ref={BannerSummary} state={productLocVal?.bannerSummary} setState={(val) => setProductLocVal((prv) => ({ ...prv, bannerSummary: val }))} />
+
+
                 <div className="bannerImgUploadBox">
                   <div className="imageUploader">
                     <label htmlFor="bannerUpdateIcon">
@@ -959,15 +972,7 @@ export default function ProductSection() {
                             placeholder="Enter Categroy Title"
                           />
                           <p className="inputLabel">About Summary</p>
-                          <textarea
-                            className="inputField"
-                            name="aboutSummary"
-                            value={productLocUpdateVal?.aboutSummary}
-                            onChange={(e) =>
-                              handleChangeProductVal(e, "update")
-                            }
-                            placeholder="Enter Categroy Title"
-                          />
+                          <RichTextEditor ref={ProductSummary} state={productLocUpdateVal?.aboutSummary} setState={(val) => setProductLocUpdateVal((prv) => ({ ...prv, aboutSummary: val }))} />
 
                           <div className="threeInBox">
                             <div className="thrInputBox">
@@ -1177,7 +1182,7 @@ export default function ProductSection() {
                               <h2>Add summary</h2>
                               {bl?.summarys?.map((blPoint: any, j: number) => (
                                 <div key={j} className="bulletPointRow">
-                                  <input
+                                  {/* <input
                                     className="inputField"
                                     name="summary"
                                     value={blPoint.summary}
@@ -1190,7 +1195,25 @@ export default function ProductSection() {
                                       )
                                     }
                                     placeholder="Enter summary point..."
+                                  /> */}
+
+                                  <RichTextEditor
+                                    state={blPoint.summary}
+                                    setState={(val) => {
+                                      setSummaryUpdateParagraph((prev) => {
+                                        const updated = [...prev];
+                                        updated[i] = {
+                                          ...updated[i],
+                                          summarys: updated[i].summarys.map((s, idx) =>
+                                            idx === j ? { ...s, summary: val } : s
+                                          ),
+                                        };
+                                        return updated;
+                                      });
+                                    }}
                                   />
+
+
                                 </div>
                               ))}
                               <div className="featureBtnBox">
@@ -1245,15 +1268,8 @@ export default function ProductSection() {
                             placeholder="Enter Categroy Title"
                           />
                           <p className="inputLabel">Banner Summary</p>
-                          <textarea
-                            className="inputField"
-                            name="bannerSummary"
-                            value={productLocUpdateVal?.bannerSummary}
-                            onChange={(e) =>
-                              handleChangeProductVal(e, "update")
-                            }
-                            placeholder="Enter Categroy Title"
-                          />
+                          <RichTextEditor ref={BannerSummary} state={productLocUpdateVal?.bannerSummary} setState={(val) => setProductLocUpdateVal((prv) => ({ ...prv, bannerSummary: val }))} />
+
                           <div className="bannerImgUploadBox">
                             <div className="imageUploader">
                               <label htmlFor="bannerUpdateIcon">

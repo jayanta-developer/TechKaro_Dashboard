@@ -16,6 +16,7 @@ import {
 import { toast } from "react-toastify";
 import { uploadImage } from "../../Util/ImageUploader";
 import MultipleImageUpload from "../../Components/ImageUploader";
+import RichTextEditor from "../TextEditor"
 
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../../Store/store";
@@ -482,7 +483,7 @@ export default function BlogSection() {
                       <h4>Summay Paragraphs</h4>
                       {bl?.summarys?.map((blPoint, j) => (
                         <div key={j} className="bulletPointRow">
-                          <textarea
+                          {/* <textarea
                             className="inputField"
                             name="summary"
                             value={blPoint.summary}
@@ -490,6 +491,21 @@ export default function BlogSection() {
                               handleChangeForMap(e, i, "blogSectionChange", j)
                             }
                             placeholder="Enter summarys..."
+                          /> */}
+                          <RichTextEditor
+                            state={blPoint.summary}
+                            setState={(val) => {
+                              setBlogSummaryData((prev) => {
+                                const updated = [...prev];
+                                updated[i] = {
+                                  ...updated[i],
+                                  summarys: updated[i].summarys.map((s, idx) =>
+                                    idx === j ? { ...s, summary: val } : s
+                                  ),
+                                };
+                                return updated;
+                              });
+                            }}
                           />
                         </div>
                       ))}
@@ -708,19 +724,20 @@ export default function BlogSection() {
                                 <h2>App Paragraphs</h2>
                                 {bl?.summarys?.map((blPoint, j) => (
                                   <div key={j} className="bulletPointRow">
-                                    <input
-                                      className="inputField"
-                                      name="summary"
-                                      value={blPoint.summary}
-                                      onChange={(e) =>
-                                        handleChangeForMap(
-                                          e,
-                                          i,
-                                          "blogSectionUpdateChange",
-                                          j
-                                        )
-                                      }
-                                      placeholder="Enter bullet point..."
+                                    <RichTextEditor
+                                      state={blPoint.summary}
+                                      setState={(val) => {
+                                        setBlogSummaryUpdateData((prev) => {
+                                          const updated = [...prev];
+                                          updated[i] = {
+                                            ...updated[i],
+                                            summarys: updated[i].summarys.map((s, idx) =>
+                                              idx === j ? { ...s, summary: val } : s
+                                            ),
+                                          };
+                                          return updated;
+                                        });
+                                      }}
                                     />
                                   </div>
                                 ))}
