@@ -36,13 +36,14 @@ export default function ProductSection() {
   const ProductSummary = useRef<Quill | null>(null);
   const BannerSummary = useRef<Quill | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const { data, status } = useSelector((state: RootState) => state.product);
+  const { data } = useSelector((state: RootState) => state.product);
   const category = useSelector((state: RootState) => state.category);
 
   const [loding, setLoading] = useState(false);
   const [createProductPop, setCreateProductPop] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [previewURLs, setPreviewURLs] = useState<string[]>([]);
+
   const [bannerImages, setBannerImages] = useState<File[]>([]);
   const [bannerPreviewURLs, setBannerPreviewURLs] = useState<string[]>([]);
   const [categoryDrop, setCategroyDrop] = useState<string>();
@@ -88,7 +89,9 @@ export default function ProductSection() {
     infoCountValue: "",
     bannerTitle: "",
     bannerSummary: "",
+    bannerImg: ""
   });
+
   const [summaryUpdateParagraph, setSummaryUpdateParagraph] = useState([
     {
       title: "",
@@ -426,6 +429,7 @@ export default function ProductSection() {
       infoCountValue: data[index]?.infoCount?.count,
       bannerTitle: data[index]?.bannerData?.title || "",
       bannerSummary: data[index]?.bannerData?.summary || "",
+      bannerImg: data[index]?.bannerData?.img || "",
     }));
     setSummaryUpdateParagraph(data[index].summary);
     if (data[index].KeyInsights) {
@@ -436,8 +440,10 @@ export default function ProductSection() {
     }
   };
   const updateProduct = async () => {
+    setLoading(true)
     if (!data[updateIndex]?._id) {
       toast.warn("Product Id not found");
+      setLoading(false)
       return;
     }
 
@@ -462,7 +468,7 @@ export default function ProductSection() {
           ...(productLocUpdateVal?.aboutTitle.length && {
             About: {
               title: productLocUpdateVal?.aboutTitle,
-              summary: productLocUpdateVal?.aboutTitle,
+              summary: productLocUpdateVal?.aboutSummary,
             },
           }),
           ...(productLocUpdateVal?.userCoutnTitle.length && {
@@ -484,11 +490,10 @@ export default function ProductSection() {
             bannerData: {
               title: productLocUpdateVal?.bannerTitle,
               summary: productLocUpdateVal?.bannerSummary,
-              ...(BannderimageUrls.length && {
-                img: BannderimageUrls[0],
-              }),
+              img: BannderimageUrls[0] ? BannderimageUrls[0] : productLocUpdateVal?.bannerImg,
             },
           }),
+
           ...(categoryDrop && {
             category: categoryDrop,
           }),
@@ -946,6 +951,13 @@ export default function ProductSection() {
                             setPreviewURLs={setPreviewURLs}
                             id="ProductIcon"
                           />
+                          {
+                            el?.image && !previewURLs.length ?
+                              <div className="categoryImgBox ProdDbImg">
+                                <img className="categoryNImg" src={el?.image} alt="" />
+                              </div> : null
+                          }
+
                         </div>
 
                         <div className="ctgTextBox">
