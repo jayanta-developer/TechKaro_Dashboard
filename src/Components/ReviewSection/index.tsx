@@ -63,8 +63,10 @@ export default function ReviewSection() {
 
   //update review
   const updateReview = () => {
+    setLoading(true)
     if (!currentReviewId) {
       toast.warn("Id not found !")
+      setLoading(false)
       return;
     }
 

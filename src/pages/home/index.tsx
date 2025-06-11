@@ -18,8 +18,7 @@ export interface activePageProps {
 }
 
 export default function Home() {
-  const [activePage, setActivePage] = useState<string>("Product");
-  console.log(activePage);
+  const [, setActivePage] = useState<string>("Product");
 
   return (
     <>

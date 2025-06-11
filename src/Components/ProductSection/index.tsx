@@ -36,7 +36,7 @@ export default function ProductSection() {
   const ProductSummary = useRef<Quill | null>(null);
   const BannerSummary = useRef<Quill | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const { data } = useSelector((state: RootState) => state.product);
+  const { data,status } = useSelector((state: RootState) => state.product);
   const category = useSelector((state: RootState) => state.category);
 
   const [loding, setLoading] = useState(false);
@@ -536,7 +536,7 @@ export default function ProductSection() {
         }
       >
         {/* Loader */}
-        <Loader loding={loding ? true : false} />
+        <Loader loding={loding || status === "loading" ? true : false} />
 
         {/* ---------Delete pop */}
         <div className={deletePop ? "grayBox ActiveGrayBox" : "grayBox"}>

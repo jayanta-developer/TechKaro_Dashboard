@@ -97,9 +97,10 @@ export default function CategorySection() {
 
   const updateCategory = async () => {
     const imageUrls = (await uploadImage(previewURLs)) || [];
-
+    setLoading(true);
     if (!data[updateIndex]?._id) {
       toast.warn("Category Id not found");
+      setLoading(false);
       return;
     }
 

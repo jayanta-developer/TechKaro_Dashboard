@@ -100,8 +100,6 @@ export const FetchProduct = createAsyncThunk<productDataType[]>(
 export const CreateProduct = createAsyncThunk<productDataType, productDataType>(
   "product/create",
   async (data, { rejectWithValue }) => {
-    console.log(data);
-
     try {
       const response = await Axios.post(`${baseURL}/product/create`, {
         ...data,

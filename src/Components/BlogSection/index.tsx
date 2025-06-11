@@ -32,7 +32,6 @@ export default function BlogSection() {
   const ActivePage = localStorage.getItem("ActivePage");
   const dispatch = useDispatch<AppDispatch>();
   const { data, status } = useSelector((state: RootState) => state.blog);
-  // console.log(data);
 
   const [loding, setLoading] = useState(false);
   const [createBlogPop, setCreateBlogPop] = useState(false);
@@ -41,8 +40,6 @@ export default function BlogSection() {
   const [previewBlogURLs, setPreviewBlogURLs] = useState<
     { url: string; index: number }[]
   >([]);
-  console.log(previewBlogURLs);
-
   const [updateIndex, setUpdateIndex] = useState<number>(1111111111111);
   const [deletePop, setDeletePop] = useState(false);
   const [deleteBlogId, setDeleteBlogId] = useState<string>();
@@ -56,8 +53,6 @@ export default function BlogSection() {
       image: "",
     },
   ]);
-  console.log(blogSummaryData);
-
   const [blogUpdateTitle, setBlogUpdateTitle] = useState<string>("");
   const [metaTitleUpdate, setMetaTitleUpdate] = useState<string>("");
   const [metaDescriptionUpdate, setMetaDescriptionUpdate] =
@@ -272,7 +267,6 @@ export default function BlogSection() {
     if (!imageUrls?.length) {
       toast.warn("Please select Icon for Blog");
       setLoading(false);
-
       return;
     }
 
@@ -284,7 +278,6 @@ export default function BlogSection() {
     ) {
       toast.warn("Please fill all the values!");
       setLoading(false);
-
       return;
     }
 
@@ -321,7 +314,9 @@ export default function BlogSection() {
   };
 
   const updateBlog = async () => {
+      setLoading(true);
     if (!data[updateIndex]?._id) {
+      setLoading(false);      
       return;
     }
     const imageUrls = await uploadImage(previewURLs);
@@ -537,7 +532,6 @@ export default function BlogSection() {
                             type="file"
                             multiple
                             accept="image/*"
-                            onClick={() => console.log(i)}
                             onChange={(e) => handleBlogImg(e, i)}
                             style={{ display: "none" }}
                           />

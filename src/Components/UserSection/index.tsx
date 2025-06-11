@@ -18,7 +18,7 @@ export default function UserSection() {
   const ActivePage = localStorage.getItem("ActivePage");
   const dispatch = useDispatch<AppDispatch>();
   const { data, status } = useSelector((state: RootState) => state.user);
-  const [loding, setLoading] = useState(false);
+  // const [loding, setLoading] = useState(false);
   const [userPop, setUserPop] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>()
 
@@ -65,7 +65,7 @@ export default function UserSection() {
         }
       >
         {/* Loader */}
-        <Loader loding={loding || status === "loading" ? true : false} />
+        <Loader loding={status === "loading" ? true : false} />
 
         {/* User pop */}
         <div
