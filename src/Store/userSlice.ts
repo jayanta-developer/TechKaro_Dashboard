@@ -13,6 +13,8 @@ interface UserDataType {
   email: string;
   message?: string;
   subject: string;
+  leads: string;
+  date: string;
   _id?: string;
 }
 

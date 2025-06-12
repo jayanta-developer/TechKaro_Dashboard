@@ -36,7 +36,7 @@ export default function ProductSection() {
   const ProductSummary = useRef<Quill | null>(null);
   const BannerSummary = useRef<Quill | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-  const { data,status } = useSelector((state: RootState) => state.product);
+  const { data, status } = useSelector((state: RootState) => state.product);
   const category = useSelector((state: RootState) => state.category);
 
   const [loding, setLoading] = useState(false);
@@ -50,6 +50,9 @@ export default function ProductSection() {
 
   const [productLocVal, setProductLocVal] = useState<productStateType>({
     title: "",
+    metaTitle: "",
+    metaDescription: "",
+    metaKeyword: "",
     aboutTitle: "",
     aboutSummary: "",
     userCoutnTitle: "",
@@ -77,10 +80,14 @@ export default function ProductSection() {
   const [AdvertisingCostData, setAdvertisingCostData] = useState<
     { title: string; value: string; _id?: string }[]
   >([{ title: "", value: "" }]);
+
   //update state
   const [updateIndex, setUpdateIndex] = useState<number>(1111111111111);
   const [productLocUpdateVal, setProductLocUpdateVal] = useState({
     title: "",
+    metaTitle: "",
+    metaDescription: "",
+    metaKeyword: "",
     aboutTitle: "",
     aboutSummary: "",
     userCoutnTitle: "",
@@ -367,6 +374,9 @@ export default function ProductSection() {
 
     if (
       !productLocVal.title ||
+      !productLocVal.metaTitle ||
+      !productLocVal.metaDescription ||
+      !productLocVal.metaKeyword ||
       !productLocVal.aboutTitle ||
       !productLocVal.aboutSummary ||
       !productLocVal.userCoutnTitle ||
@@ -389,6 +399,9 @@ export default function ProductSection() {
     dispatch(
       CreateProduct({
         title: productLocVal?.title,
+        metaTitle: productLocVal?.metaTitle,
+        metaDescription: productLocVal?.metaDescription,
+        metaKeyword: productLocVal?.metaKeyword,
         image: imageUrls[0],
         About: {
           title: productLocVal?.aboutTitle,
@@ -421,6 +434,9 @@ export default function ProductSection() {
     setProductLocUpdateVal((prv) => ({
       ...prv,
       title: data[index]?.title,
+      metaTitle: data[index]?.metaTitle,
+      metaDescription: data[index]?.metaDescription,
+      metaKeyword: data[index]?.metaKeyword,
       aboutTitle: data[index]?.About?.title,
       aboutSummary: data[index]?.About?.summary,
       userCoutnTitle: data[index]?.userCount?.title,
@@ -455,6 +471,15 @@ export default function ProductSection() {
         data: {
           ...(productLocUpdateVal?.title.length && {
             title: productLocUpdateVal?.title,
+          }),
+          ...(productLocUpdateVal?.metaTitle.length && {
+            metaTitle: productLocUpdateVal?.metaTitle,
+          }),
+          ...(productLocUpdateVal?.metaDescription.length && {
+            metaDescription: productLocUpdateVal?.metaDescription,
+          }),
+          ...(productLocUpdateVal?.metaKeyword.length && {
+            metaKeyword: productLocUpdateVal?.metaKeyword,
           }),
           ...(imageUrls?.length && {
             image: imageUrls[0],
@@ -598,6 +623,33 @@ export default function ProductSection() {
                   value={productLocVal?.title}
                   onChange={(e) => handleChangeProductVal(e, "create")}
                   placeholder="Enter Categroy Title"
+                />
+                <p className="inputLabel">Meta Title</p>
+                <input
+                  className="inputField"
+                  type="text"
+                  name="metaTitle"
+                  value={productLocVal?.metaTitle}
+                  onChange={(e) => handleChangeProductVal(e, "create")}
+                  placeholder="Enter Meta Title"
+                />
+                <p className="inputLabel">Meta Description</p>
+                <input
+                  className="inputField"
+                  type="text"
+                  name="metaDescription"
+                  value={productLocVal?.metaDescription}
+                  onChange={(e) => handleChangeProductVal(e, "create")}
+                  placeholder="Enter Meta Description"
+                />
+                <p className="inputLabel">Meta Keyword</p>
+                <input
+                  className="inputField"
+                  type="text"
+                  name="metaKeyword"
+                  value={productLocVal?.metaKeyword}
+                  onChange={(e) => handleChangeProductVal(e, "create")}
+                  placeholder="Enter Meta Keyword"
                 />
                 <p className="inputLabel">About Title</p>
                 <input
@@ -971,6 +1023,39 @@ export default function ProductSection() {
                               handleChangeProductVal(e, "update")
                             }
                             placeholder="Enter Categroy Title"
+                          />
+                          <p className="inputLabel">Meta Title</p>
+                          <input
+                            className="inputField"
+                            type="text"
+                            name="metaTitle"
+                            value={productLocUpdateVal?.metaTitle}
+                            onChange={(e) =>
+                              handleChangeProductVal(e, "update")
+                            }
+                            placeholder="Enter Meta Title"
+                          />
+                          <p className="inputLabel">Meta Description</p>
+                          <input
+                            className="inputField"
+                            type="text"
+                            name="metaDescription"
+                            value={productLocUpdateVal?.metaDescription}
+                            onChange={(e) =>
+                              handleChangeProductVal(e, "update")
+                            }
+                            placeholder="Enter Meta Description"
+                          />
+                          <p className="inputLabel">Meta Keyword</p>
+                          <input
+                            className="inputField"
+                            type="text"
+                            name="metaKeyword"
+                            value={productLocUpdateVal?.metaKeyword}
+                            onChange={(e) =>
+                              handleChangeProductVal(e, "update")
+                            }
+                            placeholder="Enter Meta Keyword"
                           />
                           <p className="inputLabel">About Title</p>
                           <input

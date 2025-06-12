@@ -108,24 +108,31 @@ export default function UserSection() {
                 <img src={Image.copyIcon} alt="" onClick={() => copyToClipboard(currentUser?.number)} />
               </div>
             </div>
-            <div className="inutBox">
-              <p className="inputLabel">Subject</p>
-              <input
-                className="inputField"
-                type="text"
-                value={currentUser?.subject}
-                disabled={true}
-              />
-            </div>
-            <div className="inutBox">
-              <p className="inputLabel">Message</p>
-              <textarea
-                className="inputField"
-                name="title"
-                value={currentUser?.message}
-                disabled={true}
-              />
-            </div>
+            {
+              currentUser?.subject &&
+              <div className="inutBox">
+                <p className="inputLabel">Subject</p>
+                <input
+                  className="inputField"
+                  type="text"
+                  value={currentUser?.subject}
+                  disabled={true}
+                />
+              </div>
+            }
+            {
+              currentUser?.message &&
+              <div className="inutBox">
+                <p className="inputLabel">Message</p>
+                <textarea
+                  className="inputField"
+                  name="title"
+                  value={currentUser?.message}
+                  disabled={true}
+                />
+              </div>
+            }
+
 
           </div>
         </div>
@@ -145,6 +152,8 @@ export default function UserSection() {
                 <h4>{el.name}</h4>
                 <p>{el.email}</p>
                 <p>{el.number}</p>
+                <span>leads: {el?.leads ? el?.leads : "Contact us"}</span>
+                <p className="dateText">{el?.date}</p>
               </div>
             ))
           }

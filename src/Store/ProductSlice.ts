@@ -10,6 +10,9 @@ export const baseURL = import.meta.env.VITE_BASE_URL;
 
 export interface productStateType {
   title: string;
+  metaTitle: string;
+  metaDescription: string;
+  metaKeyword: string;
   aboutTitle: string;
   aboutSummary: string;
   userCoutnTitle: string;
@@ -22,6 +25,9 @@ export interface productStateType {
 export interface productDataType {
   _id?: string;
   title: string;
+  metaTitle: string;
+  metaDescription: string;
+  metaKeyword: string;
   image: string;
   KeyInsights?: { title: string, value: string }[];
   AdvertisingCost?: { title: string, value: string }[];
@@ -46,6 +52,9 @@ export interface productDataType {
 interface productUpdateType {
   _id?: string;
   title?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaKeyword?: string;
   image?: string;
   KeyInsights?: { title: string, value: string }[];
   AdvertisingCost?: { title: string, value: string }[];

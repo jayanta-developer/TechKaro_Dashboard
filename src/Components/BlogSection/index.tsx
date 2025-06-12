@@ -46,6 +46,7 @@ export default function BlogSection() {
   const [blogTitle, setBlogTitle] = useState<string>("");
   const [metaTitle, setMetaTitle] = useState<string>("");
   const [metaDescription, setMetaDescription] = useState<string>("");
+  const [metaKeyword, setMetaKeyword] = useState<string>("");
   const [blogSummaryData, setBlogSummaryData] = useState<blogTextType[]>([
     {
       title: "",
@@ -57,6 +58,8 @@ export default function BlogSection() {
   const [metaTitleUpdate, setMetaTitleUpdate] = useState<string>("");
   const [metaDescriptionUpdate, setMetaDescriptionUpdate] =
     useState<string>("");
+  const [metaKeywordUpdate, setMetaKeywordUpdate] = useState<string>("");
+
 
   const [blogSummaryUpdateData, setBlogSummaryUpdateData] = useState<
     blogTextType[]
@@ -274,6 +277,7 @@ export default function BlogSection() {
       !blogTitle ||
       !metaTitle ||
       !metaDescription ||
+      !metaKeyword ||
       !blogSummaryData[0].title.length
     ) {
       toast.warn("Please fill all the values!");
@@ -298,6 +302,7 @@ export default function BlogSection() {
         title: blogTitle,
         metaTitle,
         metaDescription,
+        metaKeyword,
         image: imageUrls[0],
         blogText: blogSummaryData,
         date: new Date().toLocaleDateString("en-GB"),
@@ -310,13 +315,15 @@ export default function BlogSection() {
     setBlogUpdateTitle(data[index]?.title || "");
     setMetaTitleUpdate(data[index]?.metaTitle || "");
     setMetaDescriptionUpdate(data[index]?.metaDescription || "");
+    setMetaKeywordUpdate(data[index]?.metaKeyword || "");
     setBlogSummaryUpdateData(() => [...(data[index]?.blogText || [])]);
   };
 
   const updateBlog = async () => {
-      setLoading(true);
+    GoTop()
+    setLoading(true);
     if (!data[updateIndex]?._id) {
-      setLoading(false);      
+      setLoading(false);
       return;
     }
     const imageUrls = await uploadImage(previewURLs);
@@ -332,6 +339,9 @@ export default function BlogSection() {
           }),
           ...(metaDescriptionUpdate && {
             metaDescription: metaDescriptionUpdate,
+          }),
+          ...(metaKeywordUpdate && {
+            metaKeyword: metaKeywordUpdate,
           }),
           ...(blogSummaryUpdateData[0].title.length && {
             blogText: blogSummaryUpdateData,
@@ -451,7 +461,7 @@ export default function BlogSection() {
                     name="metaTitle"
                     value={metaTitle}
                     onChange={(e) => setMetaTitle(e.target.value)}
-                    placeholder="Enter Title"
+                    placeholder="Enter Meta Title"
                   />
                   <p className="inputLabel">Meta Description</p>
                   <input
@@ -460,7 +470,16 @@ export default function BlogSection() {
                     name="metaDescription"
                     value={metaDescription}
                     onChange={(e) => setMetaDescription(e.target.value)}
-                    placeholder="Enter Title"
+                    placeholder="Enter Meta Description"
+                  />
+                  <p className="inputLabel">Meta Keywords</p>
+                  <input
+                    className="inputField"
+                    type="text"
+                    name="metaKeyword"
+                    value={metaKeyword}
+                    onChange={(e) => setMetaKeyword(e.target.value)}
+                    placeholder="Enter Meta Keyword"
                   />
 
                   {blogSummaryData?.map((bl, i) => (
@@ -650,6 +669,14 @@ export default function BlogSection() {
                               setPreviewURLs={setPreviewURLs}
                               id="blogUpdateIcon"
                             />
+
+                            {
+                              el?.image && !previewURLs.length ?
+                                <div className="categoryImgBox ProdDbImg">
+                                  <img className="categoryNImg" src={el?.image} alt="" />
+                                </div> : null
+                            }
+
                           </div>
 
                           <div className="ctgTextBox">
@@ -666,6 +693,7 @@ export default function BlogSection() {
                               }
                               placeholder="Enter Title"
                             />
+                            <p className="inputLabel">Meta Title</p>
                             <input
                               className="inputField"
                               type="text"
@@ -694,6 +722,21 @@ export default function BlogSection() {
                                 setMetaDescriptionUpdate(e.target.value)
                               }
                               placeholder="Enter Title"
+                            />
+                            <p className="inputLabel">Meta Keyword</p>
+                            <input
+                              className="inputField"
+                              type="text"
+                              name="metaKeywordUpdate"
+                              value={
+                                i === updateIndex
+                                  ? metaKeywordUpdate
+                                  : el?.metaKeyword
+                              }
+                              onChange={(e) =>
+                                setMetaKeywordUpdate(e.target.value)
+                              }
+                              placeholder="Enter Meta Keyword"
                             />
 
                             {(i === updateIndex
@@ -758,11 +801,11 @@ export default function BlogSection() {
                                       }
                                     />
                                   )}
-                                  {bl?.image?.length && (
+                                  {bl?.image?.length ? (
                                     <div className="preview-item blogSummaryImgBox">
                                       <img src={bl?.image} alt="thumbnail" />
                                     </div>
-                                  )}
+                                  ) : null}
                                 </div>
                               </div>
                             ))}

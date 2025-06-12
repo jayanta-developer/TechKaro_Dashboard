@@ -17,6 +17,7 @@ export interface BlogDataType {
   title?: string;
   metaTitle?: string;
   metaDescription?: string;
+  metaKeyword?: string;
   image?: string;
   date?: string;
   blogText?: blogTextType[];
